@@ -1,0 +1,7 @@
+﻿# large regenerable files
+audio/
+sandbox-pages/
+sandbox-rot/
+
+# misc
+__pycache__/

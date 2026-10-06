@@ -1,0 +1,725 @@
+
+===== PAGE 1 =====
+
+   
+GenAI  Delivery  Consulting  —  Service  Description  and  
+Statement
+ 
+of
+ 
+Work
+ 
+Client:  BOCI-Prudential  Trustee  Limited  
+Prepared
+ 
+by:
+ 
+MegazoneCloud
+ 
+HK
+ 
+Date:
+ 
+18
+ 
+September
+ 
+2026
+ 
+Currency:
+ 
+United
+ 
+States
+ 
+Dollars
+ 
+(USD)
+ 
+Status:
+ 
+Draft
+ 
+for
+ 
+review.
+ 
+Not
+ 
+a
+ 
+signed
+ 
+contract.
+ 
+ 
+1.  Purpose  
+Give  the  Client  a  named  GenAI  lead  beside  the  incumbent  vendor,  so  the  MPFA  sandbox  chatbot  and  the  
+internal
+ 
+RFP
+ 
+/
+ 
+knowledge-base
+ 
+use
+ 
+case
+ 
+are
+ 
+specified
+ 
+properly,
+ 
+staff
+ 
+can
+ 
+take
+ 
+part
+ 
+with
+ 
+confidence,
+ 
+and
+ 
+vendor
+ 
+delivery
+ 
+can
+ 
+be
+ 
+accepted
+ 
+against
+ 
+clear
+ 
+tests.
+ 
+This  is  one  consulting  programme .  It  is  not  an  implementation  contract,  a  staff  secondment,  or  a  menu  of  
+optional
+ 
+workshops.
+ 
+MegazoneCloud  HK  does  not  replace  the  funded  vendor.  We  do  not  build  the  product.  We  specify,  teach,  
+steer,
+ 
+and
+ 
+assure.
+ 
+ 
+2.  Background  
+The  Client’s  first  funded  GenAI  work  sits  in  the  MPFA  sandbox  and  must  later  land  on  the  existing  member  
+website
+ 
+and
+ 
+app.
+ 
+A
+ 
+vendor
+ 
+already
+ 
+on
+ 
+the
+ 
+funding
+ 
+list
+ 
+will
+ 
+build
+ 
+and
+ 
+install
+ 
+that
+ 
+work
+ 
+on
+ 
+the
+ 
+Client’s
+ 
+chosen
+ 
+on-prem
+ 
+hardware.
+ 
+A  second,  internal  use  case  sits  on  the  same  programme:  RFP  knowledge  base .   
+The  Client  wants  three  things  from  an  outside  specialist:  
+1.  A  shared,  responsible  view  of  GenAI  before  teams  invent  use  cases.  2.  Requirements  the  incumbent  vendor  can  actually  build,  with  staff  in  the  room  so  they  learn  how  to  
+prepare
+ 
+knowledge
+ 
+for
+ 
+retrieval.
+ 3.  Someone  who  knows  GenAI  delivery  well  enough  to  keep  the  vendor  on  track,  set  the  test  method,  
+and
+ 
+help
+ 
+the
+ 
+Client
+ 
+accept
+ 
+the
+ 
+result.
+ 
+The  Client’s  working  calendar  (kick-off  22  September;  sessions  through  early  November;  hardware  in  early  
+November)
+ 
+is
+ 
+the
+ 
+base
+ 
+for
+ 
+the
+ 
+plan
+ 
+below.
+ 
+Dates
+ 
+can
+ 
+move.
+ 
+ Copyright  2025  ©  MegazoneCloud  Corp.  All  Right  Reserved.         1 
+
+
+===== PAGE 2 =====
+
+   
+3.  The  service  
+GenAI  Delivery  Consulting  is  a  fixed-term  programme  with  one  fee  and  two  named  use  cases.  
+The  Client  buys  the  outcome,  not  a  list  of  sessions.  Sessions,  on-site  days,  and  assurance  are  the  method.  
+They
+ 
+are
+ 
+not
+ 
+sold
+ 
+apart.
+ 
+3.1  Outcome  By  the  end  of  the  term  the  Client  has:  
+●  A  common  language  for  GenAI  risk,  limits,  and  responsible  use.  ●  A  vendor-ready  requirement  for  the  MPFA  AI  chatbot .  ●  A  vendor-ready  requirement  for  the  internal  RFP  /  knowledge-base  case.  ●  Staff  who  have  practised  how  to  prepare  documents  and  questions  for  retrieval,  not  only  watched  a  
+slide
+ 
+session.
+ ●  A  written  test  method  (including  guardrails  and  edge  cases)  and  a  cadence  to  judge  vendor  output.  ●  A  named  Megazone  lead  working  with  Ivy  through  first  vendor  delivery  of  those  two  cases.  
+3.2  How  we  work  Prepare.  We  say  what  to  collect.  The  Client  already  has  chatbot  /  FAQ  material  and  internal  thinking.  We  issue  
+a
+ 
+short
+ 
+survey
+ 
+and
+ 
+a
+ 
+brief
+ 
+so
+ 
+attendees
+ 
+know
+ 
+this
+ 
+is
+ 
+working
+ 
+time,
+ 
+not
+ 
+a
+ 
+product
+ 
+pitch.
+ 
+Shape  and  teach.  Facilitated  sessions,  led  by  Megazone  Lead.  Materials  in  English.  The  room  may  be  
+Cantonese,
+ 
+Mandarin,
+ 
+or
+ 
+English.
+ 
+Session  Who  it  is  for  What  it  is  
+AI  Awareness  Wider  project  group;  department  heads  and  CEO  if  they  join  
+What  GenAI  can  and  cannot  do  in  a  regulated  trustee;  security;  responsible  use;  hallucination;  injection.  A  further  three-hour  hands-on  block  is  included  if  the  Client  wants  it.  
+AI  Chatbot  —  discovery  
+Pension  Services  and  named  BAs  
+As-is  member  /  service  journey;  questions  worth  solving;  data  and  access.  
+AI  Chatbot  —  requirement  
+Same  group  Vendor-ready  requirement:  users,  intents,  sources,  accept  /  refuse  tests,  web  and  app  notes.  
+RFP  /  knowledge  base  —  stakeholder  meeting  
+Business  Development  decision-makers  
+Scope,  owners,  and  files.  This  is  a  working  meeting,  not  a  second  awareness  workshop.  
+RFP  /  knowledge  base  —  requirement  
+Named  working  group  Vendor-ready  requirement  and  the  method  staff  will  use  to  prepare  the  corpus.  
+Technical  session  Business  Technology  and  the  vendor  
+On-prem  stack  in  plain  language:  model,  ingest,  retrieval,  logs,  eval.  What  the  Client  prepares  vs  what  the  vendor  owns.  How  we  will  know  the  vendor  is  off  track.   
+ Copyright  2025  ©  MegazoneCloud  Corp.  All  Right  Reserved.         2 
+
+
+===== PAGE 3 =====
+
+   Steer  and  assure.  From  the  first  session  through  the  end  of  the  term  we  work  with  client  side  Project  
+Manager
+ 
+(Ivy)
+ 
+as
+ 
+the
+ 
+GenAI
+ 
+lead
+ 
+beside
+ 
+the
+ 
+vendor:
+ 
+weekly
+ 
+cadence,
+ 
+review
+ 
+of
+ 
+vendor
+ 
+plans
+ 
+and
+ 
+output,
+ 
+on-demand
+ 
+code
+ 
+review
+ 
+to
+ 
+clear
+ 
+blockers,
+ 
+UAT
+ 
+ground
+ 
+rules,
+ 
+and
+ 
+high-level
+ 
+tests
+ 
+on
+ 
+guardrails
+ 
+and
+ 
+edge
+ 
+cases.
+ 
+We
+ 
+set
+ 
+the
+ 
+RAG
+ 
+operating
+ 
+method
+ 
+and
+ 
+coach
+ 
+the
+ 
+Client’s
+ 
+people.
+ 
+We
+ 
+do
+ 
+not
+ 
+take
+ 
+over
+ 
+run
+ 
+operations
+ 
+after
+ 
+the
+ 
+term.
+ 
+On  site  at  least  one  day  a  week .  Heavier  at  the  start,  in  workshop  weeks,  and  near  delivery.  That  surge  is  
+inside
+ 
+the
+ 
+fee.
+ 
+A  facilitator  joins  workshop  days  when  the  room  size  needs  it.  Facilitators  work  under  NDA.  They  do  not  need  
+a
+ 
+desk,
+ 
+a
+ 
+Client
+ 
+account,
+ 
+or
+ 
+system
+ 
+access.
+ 
+ 
+4.  Scope  in  
+●  The  two  named  use  cases  only:  MPFA  AI  chatbot,  and  internal  RFP  /  knowledge  base.  ●  Preparation,  the  sessions  in  section  3.2,  and  the  written  packs  that  follow  them.  ●  Vendor-ready  requirements  the  incumbent  vendor  can  build  from.  ●  Coaching  of  Client  staff  on  knowledge  preparation  and  RAG  method.  ●  Programme  cadence  with  Ivy;  steering  of  the  incumbent  vendor  on  the  two  use  cases.  ●  QA  method;  high-level  guardrail  and  edge-case  tests;  on-demand  code  review  to  clear  blockers.  ●  UAT  ground  rules  and  facilitation  of  Client  UAT.  The  Client  still  owns  user  testers  and  sign-off.  ●  English  materials.  Sessions  in  Cantonese,  Putonghua,  or  English.  ●  One  named  lead  from  Megazone.  Facilitators  on  workshop  days  as  needed.  
+ 
+5.  Scope  out  
+●  Building  or  installing  the  product.  ●  Replacing,  contracting,  or  project-managing  the  funded  vendor  as  their  SI.  ●  Daily  on-site  presence.  ●  Buying,  hosting,  or  operating  Huawei  hardware,  Cyberport  AISC,  or  any  cloud.  ●  Production  cutover  of  the  chatbot  onto  the  public  website  and  app  after  the  sandbox.  ●  A  third  use  case,  extra  workshop  series,  or  a  new  vendor.  ●  Running  RAG  operations,  helpdesk,  or  a  support  contract  after  the  term.  ●  Company-wide  AI  strategy,  policy  writing,  or  licence  resale.  
+Anything  in  this  list,  or  a  material  increase  in  use  cases  or  vendors,  is  a  change  request.  
+ 
+ Copyright  2025  ©  MegazoneCloud  Corp.  All  Right  Reserved.         3 
+
+
+===== PAGE 4 =====
+
+   
+6.  Timeline  
+Term:  six  months,  from  the  first  facilitated  session  (target  October  2,  2026 )  through  April  1,  2027 ,  or  first  
+vendor
+ 
+delivery
+ 
+of
+ 
+the
+ 
+two
+ 
+named
+ 
+use
+ 
+cases,
+ 
+whichever
+ 
+is
+ 
+later
+ 
+within
+ 
+that
+ 
+window.
+ 
+Dates
+ 
+move
+ 
+if
+ 
+the
+ 
+Client’s
+ 
+calendar
+ 
+moves.
+ 
+Indicative  sequence,  using  the  Client’s  draft  kick-off  plan:  
+When  What  happens  
+22  Sep  Client  kick-off.  We  confirm  attendees,  artefacts,  and  session  dates.  
+28  Sep  MPFA  Sandbox++  briefing  —  Client  and  vendor.  
+Late  Sep  –  6  Oct  Our  preparation.  Two  to  three  weeks’  lead  time  before  the  first  session  we  run.  
+7  Oct  AI  Awareness.  
+12  Oct  /  21  Oct  AI  Chatbot  discovery,  then  requirement.  
+19  Oct  /  28  Oct  RFP  /  knowledge-base  stakeholder  meeting,  then  requirement.  
+Early  Nov  Technical  session,  then  hardware  delivery  and  installation  (vendor).  The  technical  session  is  set  once  speaker  and  hardware  dates  are  firm.  
+Nov  2026  –  Apr  2027  Weekly  steer,  QA,  UAT  method,  accept  vendor  output  on  the  two  use  cases.  
+ 
+The  programme  can  start  even  if  vendor  build  has  already  begun.  A  session  that  must  move  does  not  reopen  
+the
+ 
+fee,
+ 
+provided
+ 
+it
+ 
+stays
+ 
+inside
+ 
+the
+ 
+term
+ 
+and
+ 
+the
+ 
+two
+ 
+named
+ 
+use
+ 
+cases.
+ 
+ 
+ 
+ Copyright  2025  ©  MegazoneCloud  Corp.  All  Right  Reserved.         4 
+
+
+===== PAGE 5 =====
+
+   
+7.  Commercial  terms  
+7.1  Professional  services  (one-off,  fixed)  Fee  =  60  man-days  ×  USD  1,000  =  USD  60,000.  
+This  is  one  fixed  fee  for  the  programme  in  this  document.  It  is  not  sold  in  parts.  Awareness,  discovery,  
+requirement,
+ 
+technical
+ 
+work,
+ 
+cadence,
+ 
+QA,
+ 
+and
+ 
+on-demand
+ 
+review
+ 
+stand
+ 
+or
+ 
+fall
+ 
+together.
+ 
+Work  (composition  of  the  one  fee;  not  optional  lines)  Man-days  
+Prepare:  survey,  artefacts,  session  design  6  
+Shape  and  teach:  sessions,  facilitation,  vendor-ready  packs  18  
+Steer  and  assure  through  the  term:  cadence,  QA,  UAT  method,  on-demand  review  36  
+Total  60  
+ 
+The  fee  covers  professional  services  only.  It  does  not  include  hardware,  cloud,  vendor  charges,  or  MPFA  fees.  
+If  the  Client  later  wants  a  new  use  case,  a  build,  production  cutover,  or  a  run  contract,  that  is  a  separate  pack.  
+ 
+7.2  Cloud  and  infrastructure  None  in  this  fee.  On-prem  hardware  and  any  model  or  cloud  spend  sit  with  the  Client  and  the  incumbent  
+vendor.
+ 
+ 
+7.3  What  this  fee  is  for  The  fee  is  for  a  six-month  GenAI  delivery  programme  on  two  named  use  cases:  the  Client  can  brief  the  
+vendor
+ 
+in
+ 
+writing,
+ 
+staff
+ 
+have
+ 
+been
+ 
+through
+ 
+the
+ 
+method,
+ 
+and
+ 
+someone
+ 
+who
+ 
+has
+ 
+delivered
+ 
+GenAI
+ 
+stays
+ 
+with
+ 
+Ivy
+ 
+until
+ 
+that
+ 
+vendor
+ 
+output
+ 
+can
+ 
+be
+ 
+accepted.
+ 
+Sixty  days  is  the  work  to  prepare,  run  the  sessions,  write  the  packs,  and  stay  through  the  term  and  the  QA  
+peak.
+ 
+It
+ 
+is
+ 
+not
+ 
+a
+ 
+full-time
+ 
+seat
+ 
+and
+ 
+not
+ 
+a
+ 
+workshop-only
+ 
+visit.
+ 
+ 
+ 
+ Copyright  2025  ©  MegazoneCloud  Corp.  All  Right  Reserved.         5 
+
+
+===== PAGE 6 =====
+
+   
+8.  What  we  need  from  the  Client  
+●  A  named  owner  (Ivy)  and  a  decision-maker  for  accept  /  refuse  on  each  use  case.  ●  Confirmed  attendees  for  each  session,  in  time  for  the  two-to-three-week  prepare  window.  ●  Existing  chatbot  /  FAQ  material,  sample  member  questions,  and  (for  the  internal  case)  sample  RFP  files  
+the
+ 
+working
+ 
+group
+ 
+may
+ 
+use.
+ ●  Vendor  and  sandbox  constraints  the  Client  can  share.  ●  A  room  for  sessions.  NDA  for  any  facilitator.  ●  A  regular  on-site  day,  plus  extra  days  at  the  start,  in  workshop  weeks,  and  near  delivery.  ●  Client  testers  for  UAT.  Application-team  time  for  web  /  app  /  data  notes.  ●  The  incumbent  vendor  remains  responsible  for  build  and  install.  
+ 
+9.  Next  step  
+Please  review  this  pack  as  one  programme.  If  the  outcome,  term,  and  man-day  basis  are  acceptable,  we  will  
+issue
+ 
+the
+ 
+same
+ 
+text
+ 
+as
+ 
+the
+ 
+contract
+ 
+schedule,
+ 
+lock
+ 
+session
+ 
+dates
+ 
+with
+ 
+Ivy,
+ 
+and
+ 
+start
+ 
+preparation
+ 
+after
+ 
+the
+ 
+22
+ 
+September
+ 
+kick-off.
+ 
+ 
+ Copyright  2025  ©  MegazoneCloud  Corp.  All  Right  Reserved.         6 
