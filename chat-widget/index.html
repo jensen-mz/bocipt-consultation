@@ -35,7 +35,6 @@
 <!-- panel -->
 <div class="panel" id="panel">
   <div class="hd">
-    <div class="logo"><img class="brand" id="brand" alt=""><span>BOCI<br>PT</span></div>
     <div class="ttl">
       <b id="hTitle"></b>
     </div>
@@ -409,7 +408,7 @@ if(SITE_BG){
 const ICON_SRC = 'icon.png';
 if(ICON_SRC){
   const ico=new Image();
-  ico.onload=()=>{ $('licon').src=ICON_SRC; $('brand').src=ICON_SRC; document.body.classList.add('has-icon'); };
+  ico.onload=()=>{ $('licon').src=ICON_SRC; document.body.classList.add('has-icon'); };
   ico.onerror=()=>{ /* keep the SVG */ };
   ico.src=ICON_SRC;
 }
