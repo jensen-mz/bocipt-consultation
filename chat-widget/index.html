@@ -46,9 +46,6 @@
       <button class="ib" onclick="toggleMax()" title="Expand">
         <svg viewBox="0 0 24 24"><path d="M9 3H3v6M15 21h6v-6M3 9V3h6M21 15v6h-6"/></svg>
       </button>
-      <button class="ib" onclick="newSession()" title="New session">
-        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-      </button>
       <button class="ib" onclick="closePanel()">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -677,7 +674,6 @@ function accept(){agreed=true;hideConsent();setInputBlocked(false);drawMsgs();$(
 function decline(){agreed=false;hideConsent();closePanel();setInputBlocked(true)}
 function toggleMax(){maxed=!maxed;$('panel').classList.toggle('max',maxed);
   if(consentMode==='C'&&!agreed&&$('terms').style.display!=='none')placeTerms()}
-function newSession(){hist=[];drawMsgs();$('ta').value='';grow($('ta'))}
 function vote(btn,ok){btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel')}
 function grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px'}
 function key(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
