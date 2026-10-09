@@ -264,7 +264,7 @@ body.has-icon .av span{display:none}
 .terms.inpanel{border-radius:18px}
 
 /* input */
-.inp{flex:0 0 auto; border-top:1px solid var(--line); padding:10px 12px; background:#fff; display:flex; gap:8px; align-items:flex-end}
+.inp{flex:0 0 auto; border-top:1px solid var(--line); padding:10px 12px 2px; background:#fff; display:flex; gap:8px; align-items:flex-end}
 .inp textarea{flex:1; border:1px solid var(--line); border-radius:10px; padding:9px 11px; font-size:13px;
   font-family:inherit; resize:none; outline:none; max-height:88px; line-height:1.5; color:var(--ink); background:#FBFBFC}
 .inp textarea:focus{border-color:var(--red); background:#fff}
@@ -282,7 +282,7 @@ body.has-icon .av span{display:none}
 .send:hover{background:var(--red-dk)}
 .send:disabled{background:#D3D8DF; cursor:not-allowed}
 .send svg{width:17px; height:17px; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
-.foot{font-size:10.5px; color:#A6ADB8; text-align:center; padding:0 12px 9px; background:#fff; flex:0 0 auto}
+.foot{font-size:10.5px; color:#A6ADB8; text-align:center; padding:6px 12px 10px; background:#fff; flex:0 0 auto}
 
 /* empty state */
 .empty{text-align:center; padding:34px 20px 20px}
