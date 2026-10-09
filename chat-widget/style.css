@@ -72,18 +72,6 @@ body.has-icon .launcher svg{display:none}
   font-size:11.5px; padding:5px 7px; cursor:pointer; font-family:inherit; font-weight:600}
 .lang option{color:#1F2430}
 
-/* demo badge */
-.badge{background:#7F000E; color:#FFD6DA; text-align:center; font-size:10.5px; letter-spacing:.1em;
-  text-transform:uppercase; padding:4px; flex:0 0 auto; font-weight:700}
-
-/* auth strip */
-.auth{background:var(--red-lt); border-bottom:1px solid #E9CFD2; padding:8px 14px; display:flex;
-  align-items:center; gap:8px; font-size:12px; color:#7A1A22; flex:0 0 auto}
-.auth .pill{width:7px; height:7px; border-radius:50%; background:#9AA3AF; flex:0 0 auto}
-.auth.in .pill{background:#2FBF71}
-.auth b{font-weight:650}
-.auth a{margin-left:auto; color:var(--red); font-weight:650; cursor:pointer; text-decoration:none; white-space:nowrap}
-
 /* messages */
 .msgs{flex:1; overflow-y:auto; padding:16px 14px; background:#FBFBFC; scroll-behavior:smooth}
 .msgs::-webkit-scrollbar{width:7px}
