@@ -98,7 +98,9 @@ en:{
   dAcc:"By continuing you confirm you have read and understood this notice.",
   dYes:"I understand", dNo:"Close",
   blockedHint:"Accept the notice above to start asking questions.",
-  bStamp:"Notice accepted — kept in this conversation as a record.",
+  consentLine:"I consent to using this assistant. I understand it gives no investment advice, recommends no funds, and cannot carry out transactions.",
+  greet:"Hello. I can answer general questions about your MPF. What would you like to know?",
+  greetChips:"You could start with",
   emptyH:"How can I help?", emptyP:"Ask about your MPF, or pick one of these.",
   ph:"Type your question…", phIn:"Ask about your account…",
   typing:"Thinking",
@@ -194,7 +196,9 @@ tc:{
   dAcc:"繼續使用即表示你已閱讀並明白以上內容。",
   dYes:"我明白", dNo:"關閉",
   blockedHint:"請先接受上方提示，然後才可提問。",
-  bStamp:"已接受提示 — 此對話會保留該紀錄。",
+  consentLine:"我同意使用此助理。我明白它不會提供投資建議、不會推薦基金，亦不能執行交易。",
+  greet:"你好。我可以回答一般強積金問題。你想查詢什麼？",
+  greetChips:"你可以先問",
   emptyH:"有什麼可以幫你？", emptyP:"查詢你的強積金，或選擇以下一項。",
   ph:"輸入你的問題…", phIn:"查詢你的帳戶…",
   typing:"思考中",
@@ -290,7 +294,9 @@ sc:{
   dAcc:"继续使用即表示你已阅读并明白以上内容。",
   dYes:"我明白", dNo:"关闭",
   blockedHint:"请先接受上方提示，然后才可提问。",
-  bStamp:"已接受提示 — 此对话会保留该记录。",
+  consentLine:"我同意使用此助理。我明白它不会提供投资建议、不会推荐基金，亦不能执行交易。",
+  greet:"你好。我可以回答一般强积金问题。你想查询什么？",
+  greetChips:"你可以先问",
   emptyH:"有什么可以帮你？", emptyP:"查询你的强积金，或选择以下一项。",
   ph:"输入你的问题…", phIn:"查询你的账户…",
   typing:"思考中",
@@ -605,11 +611,16 @@ function citesHtml(c){
     esc(t.citesTitle)+'</div>'+items+'</div>';
 }
 
-function fuHtml(list){
+function fuHtml(list, title){
   const t=C[lang];
   if(!list||!list.length)return '';
-  return '<div class="fu"><div class="ft">'+esc(t.fuTitle)+'</div>'+
+  return '<div class="fu"><div class="ft">'+esc(title||t.fuTitle)+'</div>'+
     list.map(q=>'<button onclick="ask(\''+q.replace(/'/g,"\\'")+'\')">'+esc(q)+'</button>').join('')+'</div>';
+}
+
+function greetPack(){
+  const t=C[lang];
+  return { md:t.greet, fu:[t.q.markdown.ask, t.q.image.ask, t.q.routing.ask] };
 }
 
 /* System-message mark. The robot fills it when icon.png loads; otherwise the
@@ -620,14 +631,12 @@ function avHtml(){
 
 /* Variant B — consent as the first bot bubble. Reuses accept()/decline() so the
    state machine does not fork, and adds no new inline handler names. */
-function consentBubble(done){
+function consentBubble(){
   const t=C[lang];
-  const body = done
-    ? '<div class="cstamp"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>'+esc(t.bStamp)+'</div>'
-    : '<h3>'+esc(t.dTitle)+'</h3><p>'+esc(t.dBody)+'</p><p class="cacc">'+esc(t.dAcc)+'</p>'+
+  const body = '<h3>'+esc(t.dTitle)+'</h3><p>'+esc(t.dBody)+'</p><p class="cacc">'+esc(t.dAcc)+'</p>'+
       '<div class="cbtns"><button class="b1" onclick="accept()">'+esc(t.dYes)+'</button>'+
       '<a class="cno" onclick="decline()">'+esc(t.dNo)+'</a></div>';
-  return '<div class="row bot consent'+(done?' done':'')+'" id="consentRow">'+avHtml()+
+  return '<div class="row bot consent" id="consentRow">'+avHtml()+
     '<div class="col"><div class="bub">'+body+'</div></div></div>';
 }
 
@@ -636,15 +645,12 @@ function drawMsgs(){
   if(!agreed){
     /* variant B: consent arrives as the first bot bubble, so it is drawn here
        instead of blanking the log. Variants A/C keep the log empty. */
-    box.innerHTML = consentMode==='B' ? consentBubble(false) : '';
+    box.innerHTML = consentMode==='B' ? consentBubble() : '';
     box.scrollTop=0;
     return;
   }
-  /* variant B: the accepted notice STAYS in the log — that log is the audit
-     record of consent. */
-  const pre = consentMode==='B' ? consentBubble(true) : '';
   if(!hist.length){
-    box.innerHTML=pre+'<div class="empty"><div class="em"><svg viewBox="0 0 24 24"><path d="M12 3C6.9 3 2.8 6.6 2.8 11c0 2.5 1.3 4.7 3.4 6.2L5 21.5l4.2-2.1c.9.2 1.8.3 2.8.3 5.1 0 9.2-3.6 9.2-8S17.1 3 12 3z"/></svg></div>'+
+    box.innerHTML='<div class="empty"><div class="em"><svg viewBox="0 0 24 24"><path d="M12 3C6.9 3 2.8 6.6 2.8 11c0 2.5 1.3 4.7 3.4 6.2L5 21.5l4.2-2.1c.9.2 1.8.3 2.8.3 5.1 0 9.2-3.6 9.2-8S17.1 3 12 3z"/></svg></div>'+
       '<h3>'+esc(t.emptyH)+'</h3><p>'+esc(t.emptyP)+'</p><div class="chips">'+
       [ 'markdown','image','routing' ].map(k=>'<button onclick="demo(\''+k+'\')">'+esc(t.q[k].ask)+'</button>').join('')+
       '</div></div>';
@@ -654,6 +660,11 @@ function drawMsgs(){
   hist.forEach(m=>{
     if(m.k==='user'){ h+='<div class="row me"><div class="bub">'+inline(m.text)+'</div></div>'; return }
     const d=m.d, inner=[];
+    if(m.key==='greet'){
+      h+='<div class="row bot">'+avHtml()+'<div class="col"><div class="bub">'+md(d.md)+'</div>'+
+        fuHtml(d.fu, C[lang].greetChips)+'</div></div>';
+      return;
+    }
     if(d.refuse) inner.push(refuseBlock());
     if(d.md) inner.push(md(d.md));
     if(d.acct) inner.push(acctCard());
@@ -666,7 +677,7 @@ function drawMsgs(){
       '<button onclick="vote(this,0)" title="Not helpful"><svg viewBox="0 0 24 24"><path d="M17 2v11l-5 9-1-1v-6H6a2 2 0 01-2-2.3l1.3-7A2 2 0 017.3 2H17z"/></svg></button>'+
       '</div></div>'+ fuHtml(d.fu) +'</div></div>';
   });
-  box.innerHTML=pre+h;
+  box.innerHTML=h;
   box.scrollTop=box.scrollHeight;
 }
 
@@ -676,7 +687,15 @@ function openPanel(){$('panel').classList.add('open');$('launcher').style.displa
 function closePanel(){$('panel').classList.remove('open');$('launcher').style.display='flex';
   /* the terms drawer is positioned against the panel, so it closes with it */
   $('terms').style.display='none'}
-function accept(){agreed=true;hideConsent();setInputBlocked(false);drawMsgs();$('ta').focus()}
+function accept(){
+  agreed=true; hideConsent(); setInputBlocked(false);
+  /* A is a pop-up, so the chat opens on the greeting. B and C leave the
+     consent as the user's own line, and the greeting follows it. */
+  if(consentMode!=='A') hist.push({k:'user', text:C[lang].consentLine, key:'consent'});
+  hist.push({k:'bot', d:greetPack(), key:'greet'});
+  drawMsgs();
+  $('ta').focus();
+}
 function decline(){agreed=false;hideConsent();closePanel();setInputBlocked(true)}
 function toggleMax(){maxed=!maxed;$('panel').classList.toggle('max',maxed);
   if(consentMode==='C'&&!agreed&&$('terms').style.display!=='none')placeTerms()}
@@ -732,11 +751,14 @@ function runDemo(key){
 
 /* language switch: rebuild the whole conversation in the new language */
 function setLang(v){
-  const keys=hist.map(m=>m.key||'markdown');
+  const snap=hist.map(m=>({k:m.k, key:m.key||'markdown'}));
   lang=v;
-  hist=keys.map((key,i)=> i%2===0
-    ? {k:'user',text:C[lang].q[key].ask,key:key}
-    : {k:'bot',d:C[lang].q[key],key:key});
+  hist=snap.map(m=>{
+    if(m.key==='consent') return {k:'user', text:C[lang].consentLine, key:'consent'};
+    if(m.key==='greet') return {k:'bot', d:greetPack(), key:'greet'};
+    if(m.k==='user') return {k:'user', text:C[lang].q[m.key].ask, key:m.key};
+    return {k:'bot', d:C[lang].q[m.key], key:m.key};
+  });
   render();
 }
 

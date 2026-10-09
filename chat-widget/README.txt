@@ -55,9 +55,10 @@ THE CONSENT SWITCHER (for the workshop)
                        warning icon and two buttons. Hard to miss.
       B  Chat message  the notice arrives as the assistant's first message,
                        with the agree button inside the bubble. After you
-                       agree, the notice stays in the conversation, dimmed
-                       and stamped, so the chat log itself is the record
-                       that consent was given.
+                       agree, your consent is kept as your own message
+                       ("I consent to…"), and the assistant greets you next.
+                       A, the pop-up, does not leave that line: the greeting
+                       is the first message. C does the same as B.
       C  Full terms    a long terms document that opens to the LEFT of the
                        widget. The confirm button stays greyed out until you
                        have scrolled all the way to the bottom. On a narrow
