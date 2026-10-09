@@ -297,3 +297,13 @@ body.has-icon .av span{display:none}
 .empty .chips button{background:#fff; border:1px solid var(--line); border-radius:9px; padding:9px 12px;
   font-size:12.5px; color:var(--ink2); cursor:pointer; font-family:inherit; text-align:left; line-height:1.45}
 .empty .chips button:hover{border-color:var(--red); color:var(--red); background:#FFFAFA}
+
+/* ---------- mobile page: chat fills the window ---------- */
+body.mobile .site,
+body.mobile .launcher{display:none !important}
+body.mobile .panel{
+  display:flex; inset:0; width:100%; height:100%; max-width:none; max-height:none;
+  border-radius:0; box-shadow:none;
+}
+body.mobile .hd .acts .ib{display:none}
+body.mobile .switcher{z-index:70}
