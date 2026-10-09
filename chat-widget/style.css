@@ -58,8 +58,12 @@ body.has-icon .launcher svg{display:none}
 
 /* header */
 .hd{background:var(--red); color:#fff; padding:12px 14px; display:flex; align-items:center; gap:10px; flex:0 0 auto}
-.logo{width:34px; height:34px; border-radius:8px; background:#fff; display:flex; align-items:center; justify-content:center; flex:0 0 auto}
+.logo{width:34px; height:34px; border-radius:8px; background:#fff; display:flex; align-items:center; justify-content:center; flex:0 0 auto; overflow:hidden}
 .logo span{color:var(--red); font-weight:800; font-size:11px; letter-spacing:-.03em; line-height:1}
+.logo .brand{display:none; width:100%; height:100%; object-fit:cover}
+body.has-icon .logo{border-radius:50%; background:transparent}
+body.has-icon .logo span{display:none}
+body.has-icon .logo .brand{display:block; border-radius:50%}
 .hd .ttl{flex:1; min-width:0}
 .hd .ttl b{display:block; font-size:14px; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .hd .ttl small{display:block; font-size:11px; opacity:.82; margin-top:1px}
@@ -82,7 +86,11 @@ body.has-icon .launcher svg{display:none}
 .row.bot .col{max-width:88%; flex:1; min-width:0}
 .bub{min-width:0; overflow-wrap:break-word; word-break:break-word}
 .av{width:28px; height:28px; border-radius:8px; background:var(--red); color:#fff; font-size:10px; font-weight:800;
-  display:flex; align-items:center; justify-content:center; flex:0 0 auto; margin-top:2px}
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto; margin-top:2px; overflow:hidden}
+.av img{display:none; width:100%; height:100%; object-fit:cover}
+body.has-icon .av{border-radius:50%; background:transparent; color:transparent}
+body.has-icon .av img{display:block; border-radius:50%}
+body.has-icon .av span{display:none}
 .bub{max-width:82%; border-radius:var(--radius); padding:11px 13px; font-size:13.5px; line-height:1.62}
 .row.me .bub{background:var(--red); color:#fff; border-bottom-right-radius:4px}
 .row.bot .bub{background:#fff; border:1px solid var(--line); border-bottom-left-radius:4px; color:var(--ink2); max-width:88%}
