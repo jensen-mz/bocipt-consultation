@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOCI-Prudential — Chat Widget Mockup (DEMO)</title>
+<style>
+:root{
+  --red:#B3202A; --red-dk:#8E1A21; --red-lt:#F7E9EA;
+  --ink:#1F2430; --ink2:#3A4150; --muted:#6B7280; --line:#E4E7EC;
+  --bg:#EEF0F3; --panel:#FFFFFF; --bot:#F6F7F9; --chip:#FFFFFF;
+  --teal:#1F6F6B; --amber:#B7791F; --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:"Segoe UI",-apple-system,"PingFang HK","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- presenter bar (not part of the product) ---------- */
+.bar{
+  position:sticky; top:0; z-index:60; background:#151922; color:#E8EAF0;
+  padding:10px 16px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  border-bottom:1px solid #000;
+}
+.bar .lbl{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8B93A7; margin-right:4px}
+.bar button{
+  background:#232A38; color:#E8EAF0; border:1px solid #333C4E; border-radius:8px;
+  padding:6px 11px; font-size:12px; cursor:pointer; font-family:inherit;
+}
+.bar button:hover{background:#2E3748}
+.bar button.on{background:var(--red); border-color:var(--red); color:#fff}
+.bar .sep{width:1px; height:20px; background:#333C4E; margin:0 4px}
+/* ---------- client website backdrop ---------- */
+.site{
+  position:fixed; inset:0; z-index:0; overflow:hidden;
+  background:#fff center top no-repeat; background-size:cover;
+}
+/* empty-state: shown until a screenshot is supplied */
+.slot{
+  position:absolute; inset:24px; border:2px dashed #C3C9D2; border-radius:16px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; text-align:center; padding:24px; background:#FAFBFC;
+}
+.slot .ic{width:56px; height:56px; border-radius:14px; background:#EDF0F4;
+  display:flex; align-items:center; justify-content:center}
+.slot .ic svg{width:26px; height:26px; fill:none; stroke:#8A93A2; stroke-width:1.7;
+  stroke-linecap:round; stroke-linejoin:round}
+.slot b{font-size:15px; color:var(--ink); font-weight:650}
+.slot p{font-size:12.5px; color:var(--muted); line-height:1.7; margin:0; max-width:430px}
+.slot code{background:#EDF0F4; color:#3A4150; padding:2px 7px; border-radius:5px;
+  font-family:Consolas,Menlo,monospace; font-size:11.5px}
+.slot .hint{font-size:11.5px; color:#98A0AE; margin-top:4px}
+body.has-site .slot{display:none}
+
+/* ---------- launcher ---------- */
+.launcher{
+  position:fixed; right:26px; bottom:26px; z-index:50;
+  width:58px; height:58px; border-radius:50%; background:var(--red);
+  border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 20px rgba(179,32,42,.4); transition:transform .15s;
+}
+.launcher:hover{transform:scale(1.06)}
+.launcher svg{width:26px; height:26px; fill:#fff}
+.launcher .dot{position:absolute; top:2px; right:2px; width:12px; height:12px; border-radius:50%;
+  background:#2FBF71; border:2px solid #fff}
+
+/* ---------- panel ---------- */
+.panel{
+  position:fixed; right:26px; bottom:96px; z-index:55;
+  width:392px; height:640px; max-height:calc(100vh - 130px);
+  background:var(--panel); border-radius:18px; overflow:hidden;
+  box-shadow:0 18px 50px rgba(15,20,30,.28); display:none; flex-direction:column;
+}
+.panel.open{display:flex}
+.panel.max{ right:16px; bottom:16px; width:calc(100vw - 32px); height:calc(100vh - 32px); max-width:760px; max-height:none}
+
+/* header */
+.hd{background:var(--red); color:#fff; padding:12px 14px; display:flex; align-items:center; gap:10px; flex:0 0 auto}
+.logo{width:34px; height:34px; border-radius:8px; background:#fff; display:flex; align-items:center; justify-content:center; flex:0 0 auto}
+.logo span{color:var(--red); font-weight:800; font-size:11px; letter-spacing:-.03em; line-height:1}
+.hd .ttl{flex:1; min-width:0}
+.hd .ttl b{display:block; font-size:14px; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.hd .ttl small{display:block; font-size:11px; opacity:.82; margin-top:1px}
+.hd .acts{display:flex; gap:2px; flex:0 0 auto}
+.ib{background:transparent; border:none; color:#fff; cursor:pointer; width:30px; height:30px; border-radius:7px;
+  display:flex; align-items:center; justify-content:center; padding:0}
+.ib:hover{background:rgba(255,255,255,.18)}
+.ib svg{width:16px; height:16px; fill:none; stroke:#fff; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round}
+.lang{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.34); color:#fff; border-radius:7px;
+  font-size:11.5px; padding:5px 7px; cursor:pointer; font-family:inherit; font-weight:600}
+.lang option{color:#1F2430}
+
+/* demo badge */
+.badge{background:#7A1219; color:#FFD9DB; text-align:center; font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; padding:4px; flex:0 0 auto; font-weight:700}
+
+/* auth strip */
+.auth{background:var(--red-lt); border-bottom:1px solid #E7D3D5; padding:8px 14px; display:flex;
+  align-items:center; gap:8px; font-size:12px; color:#7A2A30; flex:0 0 auto}
+.auth .pill{width:7px; height:7px; border-radius:50%; background:#9AA3AF; flex:0 0 auto}
+.auth.in .pill{background:#2FBF71}
+.auth b{font-weight:650}
+.auth a{margin-left:auto; color:var(--red); font-weight:650; cursor:pointer; text-decoration:none; white-space:nowrap}
+
+/* messages */
+.msgs{flex:1; overflow-y:auto; padding:16px 14px; background:#FBFBFC; scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:7px}
+.msgs::-webkit-scrollbar-thumb{background:#D6DAE0; border-radius:4px}
+
+.row{display:flex; gap:9px; margin-bottom:16px}
+.row.me{justify-content:flex-end}
+.row.bot .col{max-width:88%; flex:1; min-width:0}
+.bub{min-width:0; overflow-wrap:break-word; word-break:break-word}
+.av{width:28px; height:28px; border-radius:8px; background:var(--red); color:#fff; font-size:10px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto; margin-top:2px}
+.bub{max-width:82%; border-radius:var(--radius); padding:11px 13px; font-size:13.5px; line-height:1.62}
+.row.me .bub{background:var(--red); color:#fff; border-bottom-right-radius:4px}
+.row.bot .bub{background:#fff; border:1px solid var(--line); border-bottom-left-radius:4px; color:var(--ink2); max-width:88%}
+
+/* markdown inside bot bubble */
+.bub h3{font-size:13.5px; color:var(--ink); margin:0 0 8px; font-weight:700; line-height:1.4}
+.bub h3:not(:first-child){margin-top:14px}
+.bub p{margin:0 0 9px}
+.bub p:last-child{margin-bottom:0}
+.bub ul,.bub ol{margin:0 0 9px; padding-left:19px}
+.bub li{margin-bottom:5px}
+.bub b,.bub strong{color:var(--ink); font-weight:700}
+.bub a{color:var(--red); text-decoration:none; border-bottom:1px solid rgba(179,32,42,.3)}
+.bub .lead{color:var(--ink); font-weight:600}
+
+/* refusal */
+.refuse{background:#FFF8E9; border:1px solid #F0DCA8; border-left:3px solid var(--amber);
+  border-radius:9px; padding:9px 11px; margin-bottom:10px; font-size:12.5px; color:#6B4E12; line-height:1.55}
+.refuse b{color:#5A4110}
+
+/* inline image */
+.figure{margin:2px 0 10px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff}
+.figure svg{display:block; width:100%; height:auto}
+.figure figcaption{font-size:11px; color:var(--muted); padding:7px 10px; border-top:1px solid var(--line); background:#FAFBFC}
+
+/* account card */
+.acct{border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:10px; background:#fff}
+.acct .top{background:#F3F5F8; padding:9px 11px; font-size:11.5px; color:var(--muted);
+  display:flex; justify-content:space-between; gap:8px; border-bottom:1px solid var(--line)}
+.acct .bal{padding:12px 11px 8px}
+.acct .bal small{font-size:11px; color:var(--muted); display:block; margin-bottom:3px; letter-spacing:.03em}
+.acct .bal b{font-size:23px; color:var(--ink); font-weight:700; letter-spacing:-.02em}
+.acct .gl{font-size:12px; margin-top:5px}
+.up{color:#1B7F4B} .dn{color:var(--red)}
+.acct .alloc{padding:8px 11px 11px; border-top:1px solid var(--line)}
+.acct .alloc .t{font-size:11px; color:var(--muted); margin-bottom:7px}
+.seg{display:flex; height:9px; border-radius:5px; overflow:hidden; margin-bottom:7px}
+.seg i{display:block; height:100%}
+.legend{display:flex; flex-wrap:wrap; gap:4px 12px; font-size:11px; color:var(--ink2)}
+.legend span{display:flex; align-items:center; gap:5px}
+.legend em{width:8px; height:8px; border-radius:2px; display:block; font-style:normal}
+.asat{font-size:11px; color:var(--muted); background:#F7F8FA; border-radius:7px; padding:6px 9px; margin-bottom:10px;
+  border:1px solid var(--line)}
+
+/* citations */
+.cites{margin-top:11px; padding-top:10px; border-top:1px solid var(--line)}
+.cites .ct{font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted);
+  font-weight:700; margin-bottom:7px; display:flex; align-items:center; gap:5px}
+.cites .ct svg{width:11px; height:11px; fill:none; stroke:var(--muted); stroke-width:2}
+.cites a{display:flex; gap:7px; align-items:flex-start; font-size:11.5px; color:var(--ink2);
+  text-decoration:none; padding:5px 7px; border-radius:6px; margin:0 -7px; line-height:1.45}
+.cites a:hover{background:#F4F6F8}
+.cites a i{color:var(--red); font-style:normal; font-weight:700; flex:0 0 auto}
+.cites a u{color:var(--muted); text-decoration:none; display:block; font-size:10.5px; margin-top:1px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:250px}
+.nocite{margin-top:10px; font-size:11px; color:#98A0AE; font-style:italic}
+
+/* feedback + follow-ups */
+.fb{display:flex; gap:6px; align-items:center; margin-top:11px; padding-top:9px; border-top:1px solid var(--line)}
+.fb span{font-size:10.5px; color:var(--muted); margin-right:auto}
+.fb button{background:#fff; border:1px solid var(--line); border-radius:6px; width:26px; height:24px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0}
+.fb button:hover{background:#F3F5F8; border-color:#CBD2DC}
+.fb button svg{width:13px; height:13px; fill:none; stroke:var(--muted); stroke-width:1.8; stroke-linejoin:round}
+.fb button.sel{background:var(--red-lt); border-color:#E2BFC2}
+.fb button.sel svg{stroke:var(--red)}
+.fu{margin-top:4px}
+.fu .ft{font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:7px}
+.fu button{display:block; width:100%; text-align:left; background:var(--chip); border:1px solid var(--line);
+  border-radius:9px; padding:8px 11px; font-size:12.5px; color:var(--ink2); cursor:pointer; margin-bottom:6px;
+  font-family:inherit; line-height:1.45; transition:.12s}
+.fu button:hover{border-color:var(--red); color:var(--red); background:#FFFAFA}
+.fu button:last-child{margin-bottom:0}
+
+/* typing */
+.typing{display:flex; gap:4px; padding:13px 14px}
+.typing i{width:6px; height:6px; border-radius:50%; background:#B6BDC8; animation:bl 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.18s} .typing i:nth-child(3){animation-delay:.36s}
+@keyframes bl{0%,60%,100%{opacity:.3; transform:translateY(0)}30%{opacity:1; transform:translateY(-3px)}}
+
+/* disclaimer */
+.mask{position:absolute; inset:0; background:rgba(20,24,32,.5); z-index:20; display:flex;
+  align-items:center; justify-content:center; padding:22px}
+.disc{background:#fff; border-radius:14px; padding:20px 18px; max-width:330px; width:100%; text-align:center}
+.disc .ic{width:40px; height:40px; border-radius:50%; background:var(--red-lt); display:flex;
+  align-items:center; justify-content:center; margin:0 auto 12px}
+.disc .ic svg{width:19px; height:19px; fill:none; stroke:var(--red); stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.disc h2{font-size:15px; margin:0 0 9px; color:var(--ink)}
+.disc p{font-size:12px; color:var(--muted); line-height:1.65; margin:0 0 8px; text-align:left}
+.disc .acc{font-size:11px; color:#98A0AE; margin:0 0 14px; text-align:left}
+.disc .btns{display:flex; gap:8px}
+.disc .btns button{flex:1; padding:10px; border-radius:9px; font-size:12.5px; cursor:pointer;
+  font-family:inherit; font-weight:600; border:1px solid var(--line)}
+.b1{background:var(--red); color:#fff; border-color:var(--red)!important}
+.b1:hover{background:var(--red-dk)}
+.b2{background:#fff; color:var(--ink2)}
+.b2:hover{background:#F4F6F8}
+
+/* input */
+.inp{flex:0 0 auto; border-top:1px solid var(--line); padding:10px 12px; background:#fff; display:flex; gap:8px; align-items:flex-end}
+.inp textarea{flex:1; border:1px solid var(--line); border-radius:10px; padding:9px 11px; font-size:13px;
+  font-family:inherit; resize:none; outline:none; max-height:88px; line-height:1.5; color:var(--ink); background:#FBFBFC}
+.inp textarea:focus{border-color:var(--red); background:#fff}
+.inp textarea::placeholder{color:#A6ADB8}
+.send{width:38px; height:38px; border-radius:10px; background:var(--red); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto}
+.send:hover{background:var(--red-dk)}
+.send:disabled{background:#D3D8DF; cursor:not-allowed}
+.send svg{width:17px; height:17px; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.foot{font-size:10.5px; color:#A6ADB8; text-align:center; padding:0 12px 9px; background:#fff; flex:0 0 auto}
+
+/* empty state */
+.empty{text-align:center; padding:34px 20px 20px}
+.empty .em{width:46px; height:46px; border-radius:12px; background:var(--red-lt); margin:0 auto 13px;
+  display:flex; align-items:center; justify-content:center}
+.empty .em svg{width:22px; height:22px; fill:none; stroke:var(--red); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.empty h3{font-size:15px; margin:0 0 5px; color:var(--ink)}
+.empty p{font-size:12px; color:var(--muted); margin:0 auto 18px; max-width:250px; line-height:1.6}
+.empty .chips{display:flex; flex-direction:column; gap:7px; text-align:left}
+.empty .chips button{background:#fff; border:1px solid var(--line); border-radius:9px; padding:9px 12px;
+  font-size:12.5px; color:var(--ink2); cursor:pointer; font-family:inherit; text-align:left; line-height:1.45}
+.empty .chips button:hover{border-color:var(--red); color:var(--red); background:#FFFAFA}
+
+/* ---------- presenter annotations ---------- */
+.annot{position:relative}
+body.pm .annot{outline:1.5px dashed var(--red); outline-offset:2px; border-radius:6px}
+.tag{display:none; position:absolute; z-index:70; background:var(--red); color:#fff; font-size:10px;
+  font-weight:700; padding:3px 7px; border-radius:5px; white-space:nowrap; pointer-events:none;
+  box-shadow:0 3px 10px rgba(179,32,42,.4); letter-spacing:.02em}
+body.pm .tag{display:block}
+.t1{top:-9px; left:10px} .t2{top:-9px; right:10px} .t3{bottom:-9px; left:10px}
+.t4{top:38%; right:-6px; transform:translateX(100%)} .t5{bottom:-9px; right:12px}
+.t6{top:50%; left:-6px; transform:translate(-100%,-50%)}
+.legendbox{position:fixed; left:16px; bottom:16px; z-index:70; background:#151922; color:#D7DBE4;
+  border-radius:12px; padding:13px 15px; font-size:11.5px; line-height:1.75; max-width:330px; display:none;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); border:1px solid #2A3140}
+body.pm .legendbox{display:block}
+.legendbox b{color:#fff; display:block; margin-bottom:7px; font-size:10px; letter-spacing:.1em; text-transform:uppercase}
+.legendbox i{color:#FF8A92; font-style:normal; font-weight:700; margin-right:6px}
+@media(max-width:900px){.legendbox{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="lbl">Presenter</span>
+  <button id="pm" onclick="togglePM()">Annotations</button>
+  <div class="sep"></div>
+  <span class="lbl">Response types</span>
+  <button onclick="demo('markdown')">Text + citation</button>
+  <button onclick="demo('image')">Image + text</button>
+  <button onclick="demo('internal')">Internal doc (no citation)</button>
+  <button onclick="demo('routing')">Routing to eMPF</button>
+  <button onclick="demo('refusal')">Refusal / guardrail</button>
+  <button onclick="demo('account')">Account card</button>
+  <button onclick="demo('escalate')">Escalate to human</button>
+  <div class="sep"></div>
+  <button id="authBtn" onclick="toggleAuth()">Sign in</button>
+  <button onclick="resetChat()">Reset</button>
+</div>
+
+<!-- client website backdrop — drop the screenshot here -->
+<div class="site" id="site">
+  <div class="slot">
+    <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 15l4.5-4.5 3.5 3.5 3-3L21 17"/><circle cx="8.5" cy="8.5" r="1.2"/></svg></div>
+    <b>Client website screenshot goes here</b>
+    <p>Supply a screenshot of the BOCIPT website and it will fill this area, with the chat widget sitting on top of it.</p>
+    <p class="hint">To set it manually: put the image next to this file and set <code>SITE_BG</code> in the script to its filename.</p>
+  </div>
+</div>
+
+<!-- launcher -->
+<button class="launcher annot" id="launcher" onclick="openPanel()" data-t="1">
+  <span class="tag t1" id="tg1"></span>
+  <span class="dot"></span>
+  <svg viewBox="0 0 24 24"><path d="M12 3C6.9 3 2.8 6.6 2.8 11c0 2.5 1.3 4.7 3.4 6.2L5 21.5l4.2-2.1c.9.2 1.8.3 2.8.3 5.1 0 9.2-3.6 9.2-8S17.1 3 12 3z"/></svg>
+</button>
+
+<!-- panel -->
+<div class="panel" id="panel">
+  <div class="hd">
+    <div class="logo"><span>BOCI<br>PT</span></div>
+    <div class="ttl annot" data-t="2">
+      <span class="tag t1" id="tg2"></span>
+      <b id="hTitle"></b><small id="hSub"></small>
+    </div>
+    <div class="acts">
+      <select class="lang annot" id="lang" onchange="setLang(this.value)" data-t="3">
+        <option value="en">EN</option><option value="tc">繁</option><option value="sc">简</option>
+      </select>
+      <span class="tag t2" id="tg3"></span>
+      <button class="ib annot" onclick="toggleMax()" title="Expand" data-t="4">
+        <span class="tag t3" id="tg4"></span>
+        <svg viewBox="0 0 24 24"><path d="M9 3H3v6M15 21h6v-6M3 9V3h6M21 15v6h-6"/></svg>
+      </button>
+      <button class="ib annot" onclick="newSession()" title="New session" data-t="5">
+        <span class="tag t4" id="tg5"></span>
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <button class="ib" onclick="closePanel()">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="badge" id="badge"></div>
+
+  <div class="auth annot" id="authStrip" data-t="6">
+    <span class="tag t5" id="tg6"></span>
+    <span class="pill"></span><span id="authText"></span><a id="authLink" onclick="toggleAuth()"></a>
+  </div>
+
+  <div class="msgs" id="msgs"></div>
+
+  <div class="foot" id="foot"></div>
+  <div class="inp annot" data-t="7">
+    <span class="tag t6" id="tg7"></span>
+    <textarea id="ta" rows="1" onkeydown="key(event)" oninput="grow(this)"></textarea>
+    <button class="send annot" onclick="send()" id="sendBtn" data-t="8">
+      <span class="tag t5" id="tg8"></span>
+      <svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 8 6 8z"/></svg>
+    </button>
+  </div>
+
+  <!-- disclaimer -->
+  <div class="mask" id="mask" style="display:none">
+    <div class="disc">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg></div>
+      <h2 id="dTitle"></h2>
+      <p id="dBody"></p>
+      <p class="acc" id="dAcc"></p>
+      <div class="btns">
+        <button class="b2" onclick="decline()" id="dNo"></button>
+        <button class="b1" onclick="accept()" id="dYes"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legendbox" id="legend"></div>
+
+<script>
+/* ================= CONTENT ================= */
+const C = {
+en:{
+  h1:"Chat widget mockup", sub:"Static demo for the requirements workshop. All answers are hard-coded. No live model, no live data. Click the bubble bottom-right, or use the presenter bar to jump to a response type.",
+  badge:"Demo — not a live system",
+  title:"BOCI-Prudential Assistant", hsub:"MPF member support",
+  foot:"Answers are generated by AI from approved documents. Always verify before acting.",
+  dTitle:"Before you start", dBody:"This assistant answers general MPF questions using approved BOCI-Prudential documents. It does not give investment advice, does not recommend funds, and cannot carry out transactions. Your conversation may be reviewed to improve the service.",
+  dAcc:"By continuing you confirm you have read and understood this notice.",
+  dYes:"I understand", dNo:"Close",
+  signIn:"Sign in", signOut:"Sign out",
+  authOut:"Not signed in — general questions only",
+  authIn:"Signed in as <b>C*** W**</b> · My Choice MPF",
+  emptyH:"How can I help?", emptyP:"Ask about your MPF, or pick one of these.",
+  ph:"Type your question…", phIn:"Ask about your account…",
+  typing:"Thinking",
+  fbQ:"Was this helpful?",
+  fuTitle:"You could also ask",
+  citesTitle:"Sources",
+  nocite:"Answer based on approved internal guidance.",
+  asatPrefix:"Figures as at",
+  asatNote:"Information may not yet reflect instructions processed in the last few days.",
+  refuseTitle:"I can't advise on this",
+  memberName:"C*** W**", memberId:"Member ID ······4821",
+  allocTitle:"Current allocation", balLabel:"Total balance",
+  legend:[
+    ["1","Launcher — entry point on the existing website. Always visible."],
+    ["2","Header — assistant name, and the session state."],
+    ["3","Language toggle — EN / 繁 / 简. Simplified Chinese is not on the website today. Your decision whether to include it."],
+    ["4","Expand — full-screen mode for longer answers and statements."],
+    ["5","New session — starts a fresh conversation."],
+    ["6","Sign-in state — logged out: general questions only. Logged in: that member's own data."],
+    ["7","Input bar — free text, multi-line."],
+    ["8","Send button."]
+  ],
+  q:{
+    markdown:{ask:"What is MPF and why do I have one?",
+      md:"### What MPF is\nThe Mandatory Provident Fund is a retirement savings scheme. Since December 2000, most employees and self-employed people in Hong Kong aged 18 to 64 are **required by law** to join.\n\n### How it works\n- You and your employer each contribute **5%** of your relevant income\n- Your contributions are invested in the funds you choose, or in the **Default Investment Strategy** if you make no choice\n- You can normally access the money at age **65**\n\n### Which scheme you are in\nBOCI-Prudential Trustee is trustee of two MPF schemes:\n1. My Choice MPF Scheme\n2. BOC-Prudential Easy-Choice MPF Scheme\n\nBoth moved onto the government eMPF Platform on **5 June 2025**.",
+      cites:[["Guide to the MPF Scheme","bocpt.com/en/guide-to-the-mpf-scheme"],["About the eMPF Platform","bocpt.com/en/about-the-empf-platform"]],
+      fu:["When can I withdraw my MPF?","How do I check my balance?","What fees am I paying?"]},
+    image:{ask:"How has the Asian equity fund performed?",
+      md:"### Past performance — to 30 Sep 2026\nNet asset value per unit, after fees.\n\n- 12 months: **+6.4%**\n- 3 years annualised: **+3.1%**\n- Year to date: **+4.8%**\n\n**Past performance is not an indicator of future performance.** I cannot tell you how this fund will do, or whether it suits you.",
+      img:true,
+      cites:[["Quarterly Fund Fact Sheet, Q3 2026 (PDF)","bocpt.com/en/download-corner"]],
+      fu:["What are the fees on this fund?","How do I change my fund choice?","Show me the Default Investment Strategy"]},
+    internal:{ask:"My employer's contribution arrived late. What happens?",
+      md:"### Late employer contributions\nEmployer contributions are normally invested on the dealing day after we receive them. When a contribution arrives late, we still allocate it using the fund price on the day it is received, not the day it was due.\n\n### What you will see\n- The contribution appears in your history once units are allocated\n- Your e-statement shows the actual dealing date used\n- If the delay was more than a few days, we record the reason against your account\n\n### If you want this looked at\nRaise it with our customer service team and we will check the record. Complaints are acknowledged by the next business day and most are resolved within 7 business days.",
+      cites:[],
+      fu:["How do I make a complaint?","Where do I get my e-statement?","Who do I call about this?"]},
+    routing:{ask:"When can I withdraw my MPF?",
+      md:"### When you can withdraw\nYou may withdraw your accrued benefits when one of these applies:\n- You reach age **65**\n- You leave Hong Kong permanently to reside elsewhere\n- You are totally incapacitated or terminally ill\n- Your balance is **HK$5,000 or less** and you have not been employed for 12 months\n\n### Who you submit to\nSince 5 June 2025, withdrawal instructions are submitted to the **eMPF Platform**, not to BOCI-Prudential.\n\n- eMPF hotline: **183 2622**\n- eMPF Web Portal or Mobile App\n- Same-day cut-off: **4:00pm** on a business day\n\nI can explain the rules. I cannot process the withdrawal.",
+      cites:[["When can you withdraw your MPF?","bocpt.com/en/my-choice-mpf/key-scheme-information-document/08"],["About the eMPF Platform","bocpt.com/en/about-the-empf-platform"]],
+      fu:["Can you help me decide whether to withdraw?","How do I transfer to another trustee?","What is the Default Investment Strategy?"]},
+    refusal:{ask:"Should I withdraw my MPF now and put it in a fixed deposit?",
+      md:"", refuse:true,
+      cites:[["When can you withdraw your MPF?","bocpt.com/en/my-choice-mpf/key-scheme-information-document/08"]],
+      fu:["What are the conditions for withdrawing?","Where do I submit a withdrawal?","Who can give me personal advice?"]},
+    account:{ask:"How much do I have and how did it do this year?",
+      md:"### Your account\nHere is your current position.",
+      acct:true, cites:null,
+      fu:["Show my contribution history","What funds am I invested in?","How do I change my allocation?"]},
+    escalate:{ask:"My ex-employer never paid my contributions for six months in 2019.",
+      md:"### This needs a person\nThat is a suspected non-payment case, and it needs investigating against your employment record. I can't handle that here.\n\n### What happens next\nI've logged this for our customer service team. Someone will contact you within **2 business days**.\n\n- Hotline: **2929 3030** (Easy-Choice) / **2929 3366** (My Choice)\n- Weekdays 9:00am – 6:00pm\n- Suite 1507, 15/F, 1111 King's Road, Taikoo Shing\n\nYour reference is **CS-2026-00418**.",
+      cites:[["How to make enquiries and complaints","bocpt.com/en/my-choice-mpf/key-scheme-information-document/10"]],
+      fu:["What happens to my complaint?","How long will it take?","Can I speak to someone now?"]}
+  },
+  acct:{bal:"HK$ 486,214.07", gl:"+HK$ 18,402.16 this year", glCls:"up",
+    asat:"6 October 2026",
+    alloc:[["BOCHK Hong Kong Equity",38,"#B3202A"],["BOCHK Global Bond",27,"#1F6F6B"],["BOCHK Balanced Growth",21,"#C9873A"],["Money Market",14,"#7C8798"]]},
+  refuse:{
+    t:"I can't advise on this",
+    b:"Whether you should withdraw, and where to put the money, is investment and financial advice. As trustee I am not permitted to give it, and this assistant will not.",
+    alt:[
+      ["What I can tell you","The conditions under which withdrawal is permitted, and who processes the request."],
+      ["Who owns this","The withdrawal instruction goes to the eMPF Platform on 183 2622."],
+      ["Who can advise you","BOCI-Prudential Asset Management is the licensed intermediary. They can give personal advice — a separate conversation, with their own disclosures."]
+    ]
+  },
+  chart:{t:"Asian Equity Fund — NAV per unit, 12 months to 30 Sep 2026", c:"Illustrative chart for demo purposes only."}
+},
+tc:{
+  h1:"聊天視窗示意圖", sub:"需求工作坊用的靜態示範。所有回覆都是預設的，沒有實際模型，也沒有實際資料。請按右下角的圖示，或用上方的簡報控制列直接跳到某一類回覆。",
+  badge:"示範 — 並非實際系統",
+  title:"中銀保誠智能助理", hsub:"強積金成員支援",
+  foot:"回覆由人工智能根據已核准的文件生成。採取行動前請自行核實。",
+  dTitle:"開始之前", dBody:"此助理根據中銀保誠已核准的文件回答一般強積金問題。它不會提供投資建議，不會推薦基金，亦不能執行任何交易。你的對話可能會被檢視以改善服務。",
+  dAcc:"繼續使用即表示你已閱讀並明白以上內容。",
+  dYes:"我明白", dNo:"關閉",
+  signIn:"登入", signOut:"登出",
+  authOut:"未登入 — 只可查詢一般問題",
+  authIn:"已登入：<b>C*** W**</b> · 自選強積金計劃",
+  emptyH:"有什麼可以幫你？", emptyP:"查詢你的強積金，或選擇以下一項。",
+  ph:"輸入你的問題…", phIn:"查詢你的帳戶…",
+  typing:"思考中",
+  fbQ:"這個回覆有幫助嗎？",
+  fuTitle:"你可能想問",
+  citesTitle:"資料來源",
+  nocite:"回覆根據已核准的內部指引。",
+  asatPrefix:"數字截至",
+  asatNote:"資料可能尚未反映最近數天已處理的指示。",
+  refuseTitle:"我不能就此提供建議",
+  memberName:"C*** W**", memberId:"成員編號 ······4821",
+  allocTitle:"現時分配", balLabel:"總結餘",
+  legend:[
+    ["1","開啟圖示 — 在現有網站上的入口，長期顯示。"],
+    ["2","標題列 — 助理名稱及對話狀態。"],
+    ["3","語言切換 — EN / 繁 / 簡。網站現時沒有簡體中文，是否加入由你們決定。"],
+    ["4","放大 — 全螢幕模式，方便閱讀較長的回覆及結單。"],
+    ["5","新對話 — 重新開始一段對話。"],
+    ["6","登入狀態 — 未登入只可問一般問題；已登入才可查該成員自己的資料。"],
+    ["7","輸入框 — 自由輸入，可多行。"],
+    ["8","發送按鈕。"]
+  ],
+  q:{
+    markdown:{ask:"什麼是強積金？為什麼我會有？",
+      md:"### 什麼是強積金\n強制性公積金是一個退休儲蓄計劃。自2000年12月起，香港大部分18至64歲的僱員及自僱人士，**依法必須**參加。\n\n### 如何運作\n- 你及你的僱主各供款相關入息的 **5%**\n- 供款投資於你選擇的基金；如沒有選擇，則投資於**預設投資策略**\n- 一般可在 **65歲** 時提取\n\n### 你參加的是哪個計劃\n中銀保誠信託是兩個強積金計劃的信託人：\n1. 自選強積金計劃\n2. 中銀保誠簡易強積金計劃\n\n兩個計劃已於 **2025年6月5日** 轉往政府的積金易平台。",
+      cites:[["強積金計劃指南","bocpt.com/zh/guide-to-the-mpf-scheme"],["關於積金易平台","bocpt.com/zh/about-the-empf-platform"]],
+      fu:["我什麼時候可以提取強積金？","怎樣查詢我的結餘？","我需要支付什麼費用？"]},
+    image:{ask:"亞洲股票基金表現如何？",
+      md:"### 過往表現 — 截至2026年9月30日\n每單位資產淨值，已扣除費用。\n\n- 12個月：**+6.4%**\n- 3年年均：**+3.1%**\n- 年初至今：**+4.8%**\n\n**過往表現並非未來表現的指標。** 我不能告訴你這隻基金將來會怎樣，亦不能判斷它是否適合你。",
+      img:true,
+      cites:[["季度基金概況，2026年第三季（PDF）","bocpt.com/zh/download-corner"]],
+      fu:["這隻基金的收費是多少？","怎樣更改我的基金選擇？","什麼是預設投資策略？"]},
+    internal:{ask:"僱主的供款遲到了，會怎樣處理？",
+      md:"### 僱主供款延遲\n僱主供款一般在我們收到後的下一個交易日投資。如供款延遲到達，我們仍會以**實際收到當日**的基金價格分配單位，而非原定應供款當日。\n\n### 你會看到什麼\n- 單位分配後，該筆供款會顯示於你的供款紀錄\n- 電子結單會顯示實際使用的交易日\n- 如延遲超過數天，我們會把原因記錄在你的帳戶\n\n### 如需跟進\n請聯絡我們的客戶服務團隊，我們會查核紀錄。投訴會於下一個工作天確認收訖，大部分於7個工作天內處理完成。",
+      cites:[],
+      fu:["怎樣作出投訴？","在哪裡取得電子結單？","這件事應該聯絡誰？"]},
+    routing:{ask:"我什麼時候可以提取強積金？",
+      md:"### 可提取的情況\n符合以下其中一項，便可提取累算權益：\n- 年滿 **65歲**\n- 永久離港並移居其他地方\n- 完全喪失行為能力或患末期疾病\n- 結餘為 **港幣5,000元或以下**，且已12個月沒有受僱\n\n### 向誰提交\n自2025年6月5日起，提取指示須提交至**積金易平台**，而非中銀保誠。\n\n- 積金易熱線：**183 2622**\n- 積金易網上平台或手機應用程式\n- 即日處理截止時間：工作天**下午4時**\n\n我可以解釋規則，但不能處理提取。",
+      cites:[["什麼時候可以提取強積金？","bocpt.com/zh/my-choice-mpf/key-scheme-information-document/08"],["關於積金易平台","bocpt.com/zh/about-the-empf-platform"]],
+      fu:["你可以幫我決定是否提取嗎？","怎樣轉移至其他信託人？","什麼是預設投資策略？"]},
+    refusal:{ask:"我應否現在提取強積金，轉做定期存款？",
+      md:"", refuse:true,
+      cites:[["什麼時候可以提取強積金？","bocpt.com/zh/my-choice-mpf/key-scheme-information-document/08"]],
+      fu:["提取的條件是什麼？","在哪裡提交提取申請？","誰可以給我個人建議？"]},
+    account:{ask:"我有多少錢？今年表現如何？",
+      md:"### 你的帳戶\n以下是你現時的情況。",
+      acct:true, cites:null,
+      fu:["顯示我的供款紀錄","我投資於哪些基金？","怎樣更改我的分配？"]},
+    escalate:{ask:"我的前僱主在2019年有六個月沒有為我供款。",
+      md:"### 這個需要人手處理\n這屬於懷疑拖欠供款個案，需要對照你的僱傭紀錄進行調查，我在這裡無法處理。\n\n### 接下來會怎樣\n我們已把個案轉交客戶服務團隊，會有同事於 **2個工作天** 內聯絡你。\n\n- 熱線：**2929 3030**（簡易計劃）/ **2929 3366**（自選計劃）\n- 星期一至五 上午9時至下午6時\n- 太古城英皇道1111號15樓1507室\n\n你的個案編號是 **CS-2026-00418**。",
+      cites:[["如何作出查詢及投訴","bocpt.com/zh/my-choice-mpf/key-scheme-information-document/10"]],
+      fu:["我的投訴會怎樣處理？","需要多長時間？","我可以現在就跟人對話嗎？"]}
+  },
+  acct:{bal:"港幣 486,214.07 元", gl:"本年 +港幣 18,402.16 元", glCls:"up",
+    asat:"2026年10月6日",
+    alloc:[["中銀香港股票基金",38,"#B3202A"],["中銀香港環球債券基金",27,"#1F6F6B"],["中銀香港均衡增長基金",21,"#C9873A"],["貨幣市場基金",14,"#7C8798"]]},
+  refuse:{
+    t:"我不能就此提供建議",
+    b:"應否提取、以及提取後如何處理，屬於投資及財務建議。作為信託人，我們獲准提供的服務不包括這些，此助理亦不會提供。",
+    alt:[
+      ["我可以告訴你","允許提取的條件，以及由哪一方處理申請。"],
+      ["由誰負責","提取指示須提交至積金易平台，熱線 183 2622。"],
+      ["誰可以提供建議","中銀保誠資產管理是持牌中介人，可提供個人建議 — 那是另一段對話，並有其本身的披露要求。"]
+    ]
+  },
+  chart:{t:"亞洲股票基金 — 每單位資產淨值，截至2026年9月30日之12個月", c:"僅作示範用途的示意圖。"}
+},
+sc:{
+  h1:"聊天窗口示意图", sub:"需求工作坊用的静态示范。所有回复都是预设的，没有实际模型，也没有实际数据。请按右下角的图标，或用上方的演示控制栏直接跳到某一类回复。",
+  badge:"示范 — 并非实际系统",
+  title:"中银保诚智能助理", hsub:"强积金成员支持",
+  foot:"回复由人工智能根据已核准的文件生成。采取行动前请自行核实。",
+  dTitle:"开始之前", dBody:"此助理根据中银保诚已核准的文件回答一般强积金问题。它不会提供投资建议，不会推荐基金，亦不能执行任何交易。你的对话可能会被检视以改善服务。",
+  dAcc:"继续使用即表示你已阅读并明白以上内容。",
+  dYes:"我明白", dNo:"关闭",
+  signIn:"登录", signOut:"登出",
+  authOut:"未登录 — 只可查询一般问题",
+  authIn:"已登录：<b>C*** W**</b> · 自选强积金计划",
+  emptyH:"有什么可以帮你？", emptyP:"查询你的强积金，或选择以下一项。",
+  ph:"输入你的问题…", phIn:"查询你的账户…",
+  typing:"思考中",
+  fbQ:"这个回复有帮助吗？",
+  fuTitle:"你可能想问",
+  citesTitle:"资料来源",
+  nocite:"回复根据已核准的内部指引。",
+  asatPrefix:"数字截至",
+  asatNote:"资料可能尚未反映最近几天已处理的指示。",
+  refuseTitle:"我不能就此提供建议",
+  memberName:"C*** W**", memberId:"成员编号 ······4821",
+  allocTitle:"现时分配", balLabel:"总结余",
+  legend:[
+    ["1","开启图标 — 在现有网站上的入口，长期显示。"],
+    ["2","标题栏 — 助理名称及对话状态。"],
+    ["3","语言切换 — EN / 繁 / 简。网站现时没有简体中文，是否加入由你们决定。"],
+    ["4","放大 — 全屏模式，方便阅读较长的回复及结单。"],
+    ["5","新对话 — 重新开始一段对话。"],
+    ["6","登录状态 — 未登录只可问一般问题；已登录才可查该成员自己的数据。"],
+    ["7","输入框 — 自由输入，可多行。"],
+    ["8","发送按钮。"]
+  ],
+  q:{
+    markdown:{ask:"什么是强积金？为什么我会有？",
+      md:"### 什么是强积金\n强制性公积金是一个退休储蓄计划。自2000年12月起，香港大部分18至64岁的雇员及自雇人士，**依法必须**参加。\n\n### 如何运作\n- 你及你的雇主各供款相关收入的 **5%**\n- 供款投资于你选择的基金；如没有选择，则投资于**默认投资策略**\n- 一般可在 **65岁** 时提取\n\n### 你参加的是哪个计划\n中银保诚信托是两个强积金计划的受托人：\n1. 自选强积金计划\n2. 中银保诚简易强积金计划\n\n两个计划已于 **2025年6月5日** 转往政府的积金易平台。",
+      cites:[["强积金计划指南","bocpt.com/zh/guide-to-the-mpf-scheme"],["关于积金易平台","bocpt.com/zh/about-the-empf-platform"]],
+      fu:["我什么时候可以提取强积金？","怎样查询我的结余？","我需要支付什么费用？"]},
+    image:{ask:"亚洲股票基金表现如何？",
+      md:"### 过往表现 — 截至2026年9月30日\n每单位资产净值，已扣除费用。\n\n- 12个月：**+6.4%**\n- 3年年均：**+3.1%**\n- 年初至今：**+4.8%**\n\n**过往表现并非未来表现的指标。** 我不能告诉你这只基金将来会怎样，亦不能判断它是否适合你。",
+      img:true,
+      cites:[["季度基金概况，2026年第三季（PDF）","bocpt.com/zh/download-corner"]],
+      fu:["这只基金的收费是多少？","怎样更改我的基金选择？","什么是默认投资策略？"]},
+    internal:{ask:"雇主的供款迟到了，会怎样处理？",
+      md:"### 雇主供款延迟\n雇主供款一般在我们收到后的下一个交易日投资。如供款延迟到达，我们仍会以**实际收到当日**的基金价格分配单位，而非原定应供款当日。\n\n### 你会看到什么\n- 单位分配后，该笔供款会显示于你的供款记录\n- 电子结单会显示实际使用的交易日\n- 如延迟超过几天，我们会把原因记录在你的账户\n\n### 如需跟进\n请联络我们的客户服务团队，我们会查核记录。投诉会于下一个工作日确认收讫，大部分于7个工作日内处理完成。",
+      cites:[],
+      fu:["怎样作出投诉？","在哪里取得电子结单？","这件事应该联络谁？"]},
+    routing:{ask:"我什么时候可以提取强积金？",
+      md:"### 可提取的情况\n符合以下其中一项，便可提取累算权益：\n- 年满 **65岁**\n- 永久离港并移居其他地方\n- 完全丧失行为能力或患末期疾病\n- 结余为 **港币5,000元或以下**，且已12个月没有受雇\n\n### 向谁提交\n自2025年6月5日起，提取指示须提交至**积金易平台**，而非中银保诚。\n\n- 积金易热线：**183 2622**\n- 积金易网上平台或手机应用程序\n- 即日处理截止时间：工作日**下午4时**\n\n我可以解释规则，但不能处理提取。",
+      cites:[["什么时候可以提取强积金？","bocpt.com/zh/my-choice-mpf/key-scheme-information-document/08"],["关于积金易平台","bocpt.com/zh/about-the-empf-platform"]],
+      fu:["你可以帮我决定是否提取吗？","怎样转移至其他受托人？","什么是默认投资策略？"]},
+    refusal:{ask:"我应否现在提取强积金，转做定期存款？",
+      md:"", refuse:true,
+      cites:[["什么时候可以提取强积金？","bocpt.com/zh/my-choice-mpf/key-scheme-information-document/08"]],
+      fu:["提取的条件是什么？","在哪里提交提取申请？","谁可以给我个人建议？"]},
+    account:{ask:"我有多少钱？今年表现如何？",
+      md:"### 你的账户\n以下是你现时的情况。",
+      acct:true, cites:null,
+      fu:["显示我的供款记录","我投资于哪些基金？","怎样更改我的分配？"]},
+    escalate:{ask:"我的前雇主在2019年有六个月没有为我供款。",
+      md:"### 这个需要人手处理\n这属于怀疑拖欠供款个案，需要对照你的雇佣记录进行调查，我在这里无法处理。\n\n### 接下来会怎样\n我们已把个案转交客户服务团队，会有同事于 **2个工作日** 内联络你。\n\n- 热线：**2929 3030**（简易计划）/ **2929 3366**（自选计划）\n- 星期一至五 上午9时至下午6时\n- 太古城英皇道1111号15楼1507室\n\n你的个案编号是 **CS-2026-00418**。",
+      cites:[["如何作出查询及投诉","bocpt.com/zh/my-choice-mpf/key-scheme-information-document/10"]],
+      fu:["我的投诉会怎样处理？","需要多长时间？","我现在可以跟人对话吗？"]}
+  },
+  acct:{bal:"港币 486,214.07 元", gl:"本年 +港币 18,402.16 元", glCls:"up",
+    asat:"2026年10月6日",
+    alloc:[["中银香港股票基金",38,"#B3202A"],["中银香港环球债券基金",27,"#1F6F6B"],["中银香港均衡增长基金",21,"#C9873A"],["货币市场基金",14,"#7C8798"]]},
+  refuse:{
+    t:"我不能就此提供建议",
+    b:"应否提取、以及提取后如何处理，属于投资及财务建议。作为受托人，我们获准提供的服务不包括这些，此助理亦不会提供。",
+    alt:[
+      ["我可以告诉你","允许提取的条件，以及由哪一方处理申请。"],
+      ["由谁负责","提取指示须提交至积金易平台，热线 183 2622。"],
+      ["谁可以提供建议","中银保诚资产管理是持牌中介人，可提供个人建议 — 那是另一段对话，并有其本身的披露要求。"]
+    ]
+  },
+  chart:{t:"亚洲股票基金 — 每单位资产净值，截至2026年9月30日之12个月", c:"仅作示范用途的示意图。"}
+}};
+
+/* ================= STATE ================= */
+let lang='en', signed=false, agreed=false, hist=[], maxed=false, pm=false;
+const $=id=>document.getElementById(id);
+
+/* ================= CLIENT WEBSITE BACKDROP ================= */
+/* Put the screenshot next to this file and set its filename below,
+   e.g. const SITE_BG = 'bocipt-home.png';  Leave as null for the placeholder. */
+const SITE_BG = null;
+if(SITE_BG){
+  const s=$('site');
+  s.style.backgroundImage='url("'+SITE_BG+'")';
+  document.body.classList.add('has-site');
+}
+
+/* ================= MARKDOWN ================= */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function inline(s){
+  s=esc(s);
+  s=s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+  s=s.replace(/\[(.+?)\]\((.+?)\)/g,'<a href="#" onclick="return false">$1</a>');
+  return s;
+}
+function md(src){
+  const L=src.split('\n'); let out='',i=0;
+  while(i<L.length){
+    let l=L[i];
+    if(!l.trim()){i++;continue}
+    if(/^###\s/.test(l)){out+='<h3>'+inline(l.replace(/^###\s/,''))+'</h3>';i++;continue}
+    if(/^[-*]\s/.test(l)){
+      out+='<ul>';
+      while(i<L.length&&/^[-*]\s/.test(L[i])){out+='<li>'+inline(L[i].replace(/^[-*]\s/,''))+'</li>';i++}
+      out+='</ul>';continue}
+    if(/^\d+\.\s/.test(l)){
+      out+='<ol>';
+      while(i<L.length&&/^\d+\.\s/.test(L[i])){out+='<li>'+inline(L[i].replace(/^\d+\.\s/,''))+'</li>';i++}
+      out+='</ol>';continue}
+    let p=[];
+    while(i<L.length&&L[i].trim()&&!/^###\s|^[-*]\s|^\d+\.\s/.test(L[i])){p.push(L[i]);i++}
+    out+='<p>'+inline(p.join(' '))+'</p>';
+  }
+  return out;
+}
+
+/* ================= CHART SVG ================= */
+function chart(){
+  const pts=[28,26,30,27,32,31,35,33,38,36,41,44,42,46];
+  const w=560,h=150,px=34,py=14,mx=Math.max(...pts),mn=Math.min(...pts);
+  const X=i=>px+i*((w-px-10)/(pts.length-1));
+  const Y=v=>h-py-((v-mn)/(mx-mn))*(h-py*2);
+  let path=pts.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+  let area=path+' L'+X(pts.length-1).toFixed(1)+' '+(h-py)+' L'+px+' '+(h-py)+' Z';
+  let grid='';
+  for(let g=0;g<=3;g++){const y=py+g*((h-py*2)/3);grid+='<line x1="'+px+'" y1="'+y+'" x2="'+(w-10)+'" y2="'+y+'" stroke="#EDF0F3" stroke-width="1"/>';}
+  const mon=['O','N','D','J','F','M','A','M','J','J','A','S','O','S'];
+  let xl='';
+  pts.forEach((v,i)=>{if(i%2===0)xl+='<text x="'+X(i)+'" y="'+(h-2)+'" font-size="9" fill="#98A0AE" text-anchor="middle">'+mon[i]+'</text>';});
+  return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">'+
+    '<stop offset="0%" stop-color="#B3202A" stop-opacity=".16"/><stop offset="100%" stop-color="#B3202A" stop-opacity="0"/>'+
+    '</linearGradient></defs>'+grid+
+    '<path d="'+area+'" fill="url(#g1)"/>'+
+    '<path d="'+path+'" fill="none" stroke="#B3202A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'+
+    '<circle cx="'+X(pts.length-1)+'" cy="'+Y(pts[pts.length-1])+'" r="3.5" fill="#B3202A"/>'+xl+
+    '<text x="'+px+'" y="'+(py-3)+'" font-size="9" fill="#98A0AE">NAV/unit</text></svg>';
+}
+
+/* ================= ACCOUNT CARD ================= */
+function acctCard(){
+  const t=C[lang],a=t.acct;
+  let seg='',leg='';
+  a.alloc.forEach(([n,p,c])=>{seg+='<i style="width:'+p+'%;background:'+c+'"></i>';
+    leg+='<span><em style="background:'+c+'"></em>'+esc(n)+' '+p+'%</span>';});
+  return '<div class="acct">'+
+    '<div class="top"><span>'+esc(t.memberName)+'</span><span>'+esc(t.memberId)+'</span></div>'+
+    '<div class="bal"><small>'+esc(t.balLabel)+'</small>'+
+    '<b>'+esc(a.bal)+'</b><div class="gl '+a.glCls+'">'+esc(a.gl)+'</div></div>'+
+    '<div class="alloc"><div class="t">'+esc(t.allocTitle)+'</div><div class="seg">'+seg+'</div><div class="legend">'+leg+'</div></div>'+
+    '</div>'+
+    '<div class="asat">'+esc(t.asatPrefix)+' <b>'+esc(a.asat)+'</b> · '+esc(t.asatNote)+'</div>';
+}
+
+/* ================= REFUSAL ================= */
+function refuseBlock(){
+  const t=C[lang],r=t.refuse;
+  let rows=r.alt.map(([h,b])=>'<li><b>'+esc(h)+'</b> — '+esc(b)+'</li>').join('');
+  return '<div class="refuse"><b>'+esc(r.t)+'</b><br>'+esc(r.b)+'</div>'+
+    '<ul style="margin:0 0 9px;padding-left:19px">'+rows+'</ul>';
+}
+
+/* ================= RENDER ================= */
+function render(){
+  const t=C[lang];
+  document.documentElement.lang = lang==='en'?'en':'zh-HK';
+  $('badge').textContent=t.badge;
+  $('hTitle').textContent=t.title; $('hSub').textContent=t.hsub;
+  $('foot').textContent=t.foot;
+  $('ta').placeholder=signed?t.phIn:t.ph;
+  $('dTitle').textContent=t.dTitle; $('dBody').textContent=t.dBody; $('dAcc').textContent=t.dAcc;
+  $('dYes').textContent=t.dYes; $('dNo').textContent=t.dNo;
+  $('authLink').textContent=signed?t.signOut:t.signIn;
+  $('authBtn').textContent=signed?t.signOut:t.signIn;
+  $('authText').innerHTML=signed?t.authIn:t.authOut;
+  $('authStrip').className='auth annot'+(signed?' in':'');
+  $('authBtn').className=signed?'on':'';
+  // tags
+  t.legend.forEach((x,i)=>{const el=$('tg'+(i+1)); if(el)el.textContent=x[0]});
+  $('legend').innerHTML='<b>'+ (lang==='en'?'Presenter annotations':(lang==='tc'?'簡報標註':'演示标注')) +'</b>'+
+    t.legend.map(x=>'<div><i>'+x[0]+'</i>'+esc(x[1])+'</div>').join('');
+  drawMsgs();
+}
+
+function citesHtml(c){
+  const t=C[lang];
+  if(c===null||c===undefined) return '';
+  if(!c.length) return '<div class="nocite">'+esc(t.nocite)+'</div>';
+  let items=c.map((x,i)=>'<a href="#" onclick="return false"><i>['+(i+1)+']</i>'+
+    '<span>'+esc(x[0])+'<u>'+esc(x[1])+'</u></span></a>').join('');
+  return '<div class="cites"><div class="ct"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>'+
+    esc(t.citesTitle)+'</div>'+items+'</div>';
+}
+
+function fuHtml(list){
+  const t=C[lang];
+  if(!list||!list.length)return '';
+  return '<div class="fu"><div class="ft">'+esc(t.fuTitle)+'</div>'+
+    list.map(q=>'<button onclick="ask(\''+q.replace(/'/g,"\\'")+'\')">'+esc(q)+'</button>').join('')+'</div>';
+}
+
+function drawMsgs(){
+  const t=C[lang], box=$('msgs');
+  if(!agreed){ box.innerHTML=''; return }
+  if(!hist.length){
+    box.innerHTML='<div class="empty"><div class="em"><svg viewBox="0 0 24 24"><path d="M12 3C6.9 3 2.8 6.6 2.8 11c0 2.5 1.3 4.7 3.4 6.2L5 21.5l4.2-2.1c.9.2 1.8.3 2.8.3 5.1 0 9.2-3.6 9.2-8S17.1 3 12 3z"/></svg></div>'+
+      '<h3>'+esc(t.emptyH)+'</h3><p>'+esc(t.emptyP)+'</p><div class="chips">'+
+      [ 'markdown','image','routing' ].map(k=>'<button onclick="demo(\''+k+'\')">'+esc(t.q[k].ask)+'</button>').join('')+
+      '</div></div>';
+    return;
+  }
+  let h='';
+  hist.forEach(m=>{
+    if(m.k==='user'){ h+='<div class="row me"><div class="bub">'+inline(m.text)+'</div></div>'; return }
+    const d=m.d, inner=[];
+    if(d.refuse) inner.push(refuseBlock());
+    if(d.md) inner.push(md(d.md));
+    if(d.acct) inner.push(acctCard());
+    if(d.img) inner.push('<figure class="figure">'+chart()+'<figcaption>'+esc(C[lang].chart.t)+' · '+esc(C[lang].chart.c)+'</figcaption></figure>');
+    inner.push(citesHtml(d.cites));
+    h+='<div class="row bot"><div class="av">AI</div><div class="col">'+
+      '<div class="bub">'+inner.join('')+
+      '<div class="fb"><span>'+esc(t.fbQ)+'</span>'+
+      '<button onclick="vote(this,1)" title="Helpful"><svg viewBox="0 0 24 24"><path d="M7 22V11l5-9 1 1v6h5a2 2 0 012 2.3l-1.3 7A2 2 0 0116.7 22H7z"/></svg></button>'+
+      '<button onclick="vote(this,0)" title="Not helpful"><svg viewBox="0 0 24 24"><path d="M17 2v11l-5 9-1-1v-6H6a2 2 0 01-2-2.3l1.3-7A2 2 0 017.3 2H17z"/></svg></button>'+
+      '</div></div>'+ fuHtml(d.fu) +'</div></div>';
+  });
+  box.innerHTML=h;
+  box.scrollTop=box.scrollHeight;
+}
+
+/* ================= ACTIONS ================= */
+function openPanel(){$('panel').classList.add('open');$('launcher').style.display='none';
+  if(!agreed){$('mask').style.display='flex';drawMsgs()} else drawMsgs(); $('ta').focus()}
+function closePanel(){$('panel').classList.remove('open');$('launcher').style.display='flex'}
+function accept(){agreed=true;$('mask').style.display='none';drawMsgs();$('ta').focus()}
+function decline(){closePanel();agreed=false}
+function toggleMax(){maxed=!maxed;$('panel').classList.toggle('max',maxed)}
+function toggleAuth(){signed=!signed;render()}
+function newSession(){hist=[];drawMsgs();$('ta').value='';grow($('ta'))}
+function resetChat(){hist=[];signed=false;agreed=false;render();$('mask').style.display='none';$('panel').classList.remove('open');$('launcher').style.display='flex'}
+function togglePM(){pm=!pm;document.body.classList.toggle('pm',pm);$('pm').className=pm?'on':''}
+function vote(btn,ok){btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel')}
+function grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px'}
+function key(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
+
+function match(text){
+  const t=C[lang].q;
+  for(const k in t){ if(t[k].ask===text) return k }
+  const s=text.toLowerCase();
+  for(const k in t){ if(t[k].ask.toLowerCase()===s) return k }
+  if(/withdraw|提取|提取/.test(s)) return signed?'refusal':'routing';
+  if(/balance|how much|結餘|结余|多少/.test(s)) return signed?'account':'markdown';
+  if(/fund|perform|基金|表現|表现/.test(s)) return 'image';
+  if(/complain|late|employer|投訴|投诉|僱主|雇主/.test(s)) return 'escalate';
+  return 'markdown';
+}
+
+function send(){
+  const ta=$('ta'), v=ta.value.trim(); if(!v)return;
+  ta.value=''; grow(ta); ask(v);
+}
+
+function ask(text){
+  if(!agreed){openPanel();return}
+  $('msgs').querySelector('.empty')?.remove();
+  const key=match(text);
+  hist.push({k:'user',text:text,key:key});
+  drawMsgs();
+  const box=$('msgs');
+  box.insertAdjacentHTML('beforeend',
+    '<div class="row bot" id="typ"><div class="av">AI</div><div class="bub" style="padding:0"><div class="typing"><i></i><i></i><i></i></div></div></div>');
+  box.scrollTop=box.scrollHeight;
+  setTimeout(()=>{
+    const el=$('typ'); if(el)el.remove();
+    hist.push({k:'bot',d:C[lang].q[key],key:key});
+    drawMsgs();
+  },620);
+}
+
+function demo(key){
+  if(!agreed){openPanel(); setTimeout(()=>{agreed=true;$('mask').style.display='none';
+    if(key==='account'&&!signed){signed=true;render()} runDemo(key)},120); return}
+  if(key==='account'&&!signed){signed=true;render()}
+  runDemo(key);
+}
+function runDemo(key){
+  hist.push({k:'user',text:C[lang].q[key].ask,key:key});
+  hist.push({k:'bot',d:C[lang].q[key],key:key});
+  drawMsgs();
+}
+
+/* language switch: rebuild the whole conversation in the new language */
+function setLang(v){
+  const keys=hist.map(m=>m.key||'markdown');
+  lang=v;
+  hist=keys.map((key,i)=> i%2===0
+    ? {k:'user',text:C[lang].q[key].ask,key:key}
+    : {k:'bot',d:C[lang].q[key],key:key});
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

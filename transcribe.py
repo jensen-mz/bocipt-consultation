@@ -24,8 +24,8 @@ fw_audio.decode_audio = decode_audio
 import faster_whisper.transcribe as fw_tr
 fw_tr.decode_audio = decode_audio
 
-src = r"C:\Users\honka\Downloads\New Recording 13.m4a"
-out_path = r"C:\Users\honka\Downloads\boci-prudential-workshop-prep\transcript-kickoff.txt"
+src = r"C:\Users\honka\Downloads\bocipt-elainie.m4a"
+out_path = r"C:\Users\honka\Downloads\boci-prudential-workshop-prep\transcript-elaine.txt"
 
 print("loading model", flush=True)
 model = WhisperModel("small", device="cpu", compute_type="int8", cpu_threads=8)
