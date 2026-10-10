@@ -306,4 +306,4 @@ body.mobile .panel{
   border-radius:0; box-shadow:none;
 }
 body.mobile .hd .acts .ib{display:none}
-body.mobile .switcher{z-index:70}
+body.mobile .switcher{display:none}
