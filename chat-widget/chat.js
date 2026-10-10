@@ -493,7 +493,7 @@ function setConsent(m){
   if(!$('panel').classList.contains('open')) openPanel(); else showConsent();
 }
 document.querySelectorAll('.switcher .sw').forEach(b=>b.addEventListener('click',()=>setConsent(b.dataset.m)));
-document.querySelector('.switcher .sw').classList.add('on');
+document.querySelector('.switcher .sw')?.classList.add('on');
 
 function render(){
   const t=C[lang];
