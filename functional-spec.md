@@ -284,6 +284,8 @@ The bot reads. It does not write. It does not become a second system of record.
 | DI-5 | eMPF | No system connection | A form name and a public address, taken from the library |
 | DI-6 | Internal portal | Internal users only | Library and operations |
 
+Level 1 and Level 3 are both read from DI-1. Level 3 has no source of its own.
+
 DI-3 is the same business information the member can see today after login:
 
 - balance
