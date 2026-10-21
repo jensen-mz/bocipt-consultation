@@ -187,7 +187,7 @@ Pension Services is accountable for what the bot says. They are not technical, a
 
 Every restriction is enforced on the server. Hiding a control in the screen is not enough. It must hold when the interface is called directly with the wrong role.
 
-The library, the activity log, access control, the playground, and conversation review are required. The playground is not optional. It is removed only if CSI pushes back on price and BOCIPT accepts that in writing (O11).
+The library, the activity log, access control, the playground, and conversation review are required.
 
 #### Library — must have
 
@@ -222,8 +222,6 @@ An edit to a live entry takes effect immediately (P3, P4). New material can be h
 #### Playground — required
 
 A private test, before members can see a change. Pension Services types a question and reads the answer the bot would give. It is not a member conversation. The golden set is the fixed list of questions rerun after a change, to see what moved.
-
-This is required. It is removed only if CSI pushes back on price and BOCIPT accepts that in writing (O11).
 
 | ID | Requirement |
 | --- | --- |
@@ -409,5 +407,4 @@ CSI does not close an open point by choosing a convenient default. An assumption
 | O8 | Where sandbox inference runs, and what data may reach it | Business Technology, with CSI |
 | O9 | Whether the account source can supply an as-at time | Business Technology |
 | O10 | A session code the member could quote to the call centre | Not in this build. Recorded so it is not added silently. |
-| O11 | The playground (P19–P24) is required. It is removed only if CSI pushes back on price and BOCIPT accepts that in writing. | CSI, then BOCIPT |
-| O12 | A named Pension Services owner for the library. About 100 staff may use the portal. The library needs an owner, not the whole department. | Pension Services |
+| O11 | A named Pension Services owner for the library. About 100 staff may use the portal. The library needs an owner, not the whole department. | Pension Services |
