@@ -113,61 +113,98 @@ Two guardrails apply to every channel and to the portal.
 
 If the library and the account data do not contain the answer, the bot says it does not know. It does not fill the gap.
 
-### 3.5 Scenarios
+### 3.5 Chat behaviour
 
-Journeys for these scenarios will be attached. The behaviour below is the requirement.
+The website and the app show the same chatbot. These behaviours apply to every scenario.
 
-#### Level 1
-
-**S1 — Understanding MPF.**  
-Public rules a person needs before they have an account: what MPF is, contribution types, tax-deductible voluntary contributions as a published rule, and which door owns which task.  
-Does: answer from approved public material and cite it.  
-Refuses: which fund to pick, whether this person should join, whether they should pay more.
-
-**S2 — Our schemes and funds.**  
-BOCPT’s own schemes, funds, fees, fact sheets, and the asset manager information BOCPT already publishes. Standing facts, not only news.  
-Does: quote the published fact and cite the document.  
-Refuses: “are your fees the lowest”, and any comparison with another trustee.
-
-#### Level 2
-
-**S3 — Balance, fund split, and performance.**  
-The figures this member can already see after login: balance, how the account is split across funds, and the performance figures already shown for that account.  
-Does: read those fields and, where a chart helps, render a fixed chart from them.  
-Refuses: a new projection, a simulator, or advice to change the split.
-
-**S4 — Contribution history and statements.**  
-The contribution ledger and the statements this member can already open.  
-Does: retrieve the entries and provide the statement the site already holds.  
-Refuses: to produce a new statement, or to explain what the member should do next with the money.
-
-**S5 — Finding it on the member site.**  
-The member wants the page rather than the answer in the chat. The site already has screens for balances and simple analysis.  
-Does: name the page and explain what that page shows.  
-Refuses: to rebuild that tool inside the chat, or to walk through eMPF.
-
-#### Level 3 — sandbox
-
-**S6 — Level 3 library material.**  
-Does: answer from a Level 3 document and cite it.  
-Refuses: a recommendation or advice.
-
-**S7 — Timely Update.**  
-A notice already published by BOCPT and loaded in the library.  
-Does: show it when the chat opens, or attach it to an answer, with its source.  
-Refuses: to choose the notice from the member’s account, and to turn the notice into an instruction.
-
-### 3.6 Conversation behaviour
-
-- Before login, account questions are refused. The bot tells the member to sign in with the existing member login. It does not collect identity in the chat.
-- After logout, account answers stop.
-- A factual answer cites the document or the account source it came from.
-- A timely update cites the notice.
-- The model does not invent the numbers in a chart. The chart is rendered from the fields retrieved for that request.
-- The bot answers, or it says it cannot. It does not hand the conversation to a person.
-- Language follows the member’s channel language, limited to languages the library actually holds.
+| ID | Behaviour |
+| --- | --- |
+| C1 | One chatbot service on the website and the mobile app. Both use the same backend and return the same answer for the same question and the same session. |
+| C2 | When the chat opens, the person can type. If Level 3 is on, a Timely Update from the library may be the first thing shown. |
+| C3 | A person who is not logged in and asks for account data is told to sign in with the existing member login. The chat does not collect identity and does not show account data. |
+| C4 | After logout, account answers stop. |
+| C5 | A chart uses only the figures retrieved for that request, in a fixed layout. The model does not invent the numbers. |
+| C6 | For a switch, a withdrawal, a transfer, or a contribution, the bot names the form and gives the public eMPF address, from the library. It does not describe the eMPF screens and it does not submit the instruction. |
+| C7 | A factual answer cites the document or the account source. A Timely Update cites the notice. Names in the answer follow the glossary. |
+| C8 | If the library and, where the person is logged in, the account data do not contain the answer, the bot says it does not know. |
+| C9 | The bot answers, or it says it cannot. It does not hand the conversation to a person. |
+| C10 | The bot answers in the language the person is using, limited to languages the library holds. |
 
 How long a conversation is kept, and whether it continues across visits, is open. See section 6.
+
+### 3.6 Scenarios
+
+Journeys may be attached later. They follow these rows. They do not add behaviour on their own.
+
+**S1 — Understanding MPF.** Level 1. Public and members.
+
+| | |
+| --- | --- |
+| Person can ask | A public MPF rule that is in the library, including what MPF is and the contribution types. |
+| Bot reads | Level 1 documents. |
+| Bot shows | The fact from those documents. |
+| Bot cites | The document. |
+| Bot refuses | Which fund to pick, whether this person should join, and whether they should pay more. A switch, withdrawal, transfer, or contribution follows C6. |
+
+**S2 — Our schemes and funds.** Level 1. Public and members.
+
+| | |
+| --- | --- |
+| Person can ask | BOCPT’s schemes, funds, fees, fact sheets, and the asset manager information already in the library. |
+| Bot reads | Level 1 documents. |
+| Bot shows | The published fact. |
+| Bot cites | The document. |
+| Bot refuses | A comparison with another trustee, including whether BOCPT’s fees are the lowest. |
+
+**S3 — Balance, fund split, and performance.** Level 2. Logged-in member.
+
+| | |
+| --- | --- |
+| Person can ask | The balance, the fund split, or the performance figures this member can already see on the member site. |
+| Bot reads | That member’s account fields in section 4.1. No session follows C3. |
+| Bot shows | Those figures. Where a chart helps, it follows C5. |
+| Bot cites | The account source, including the as-at time when the source provides one. |
+| Bot refuses | A projection, a simulator, and advice to change the split. |
+
+**S4 — Contribution history and statements.** Level 2. Logged-in member.
+
+| | |
+| --- | --- |
+| Person can ask | The contribution history, or a statement this member can already open. |
+| Bot reads | That member’s contribution entries and the statement list in section 4.1. |
+| Bot shows | The entries, and the statement file the site already holds. |
+| Bot cites | The account source. |
+| Bot refuses | A newly produced statement, and what the member should do next with the money. |
+
+**S5 — Finding it on the member site.** Level 2. Logged-in member.
+
+| | |
+| --- | --- |
+| Person can ask | Where to see a figure or an existing tool on the member site. |
+| Bot reads | The approved description of pages that already exist on the member site. |
+| Bot shows | The page name and what that page shows. |
+| Bot cites | That page description. |
+| Bot refuses | Rebuilding that tool inside the chat. An eMPF task follows C6. |
+
+**S6 — Level 3 library material.** Level 3. Public and members. Sandbox.
+
+| | |
+| --- | --- |
+| Person can ask | A question answered by a document tagged Level 3. |
+| Bot reads | Level 3 documents in the library. |
+| Bot shows | The answer from that document. |
+| Bot cites | The document. |
+| Bot refuses | A recommendation or advice. |
+
+**S7 — Timely Update.** Level 3. Public and members. Sandbox.
+
+| | |
+| --- | --- |
+| When it appears | When Level 3 is on, as the first thing in the chat (C2), or attached after an answer. The person does not have to ask. |
+| Bot reads | A published notice tagged Level 3. The member’s account is not read to choose it. |
+| Bot shows | The notice. |
+| Bot cites | The notice. |
+| Bot refuses | Choosing the notice from the member’s account, and turning the notice into an instruction. |
 
 ### 3.7 Internal portal
 
