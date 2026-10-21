@@ -179,15 +179,15 @@ Pension Services is accountable for what the bot says. They are not technical, a
 | --- | --- | --- |
 | Library — add, edit, enable, disable, delete | Full | Read only |
 | Activity log | View | View and export |
-| Playground and golden test set | Full, where that module is delivered | View only |
-| Conversations and analysis | Full, where that module is delivered | View only |
+| Playground and golden test set | Full | View only |
+| Conversation review | Full | View only |
 | Provision or revoke a Pension Services admin | No | Yes |
 | System prompt, model temperature, agent building blocks | Locked | Locked |
 | Refusal rules | Set at build. Not editable. | Set at build. Not editable. |
 
 Every restriction is enforced on the server. Hiding a control in the screen is not enough. It must hold when the interface is called directly with the wrong role.
 
-The library, the activity log, and access control are must have. The chatbot runs without the playground and without conversation review. Those two modules are good to have. Whether the product includes them is open (O11).
+The library, the activity log, access control, the playground, and conversation review are required. The playground is not optional. It is removed only if CSI pushes back on price and BOCIPT accepts that in writing (O11).
 
 #### Library — must have
 
@@ -214,14 +214,16 @@ An edit to a live entry takes effect immediately (P3, P4). New material can be h
 | --- | --- |
 | P13 | Pension Services can open an entry’s history: the named person, the time, and the text before and after. Nobody can edit or delete that history, including Pension Services. |
 | P14 | IT can export the activity log for a date range. The export includes failed and rejected attempts. |
-| P15 | Pension Services manages the library without a further approval step. Where the later modules exist, the same applies to testing and conversation review. They cannot change the system prompt, the model settings, or the refusal rules. |
+| P15 | Pension Services manages the library, the playground, and conversation review without a further approval step. They cannot change the system prompt, the model settings, or the refusal rules. |
 | P16 | IT can read the library and its history. Add, edit, enable, disable, and delete are unavailable to IT on the server. |
-| P17 | Where testing or conversation screens exist, IT can open them to troubleshoot and cannot change the golden test set or a saved baseline. |
+| P17 | IT can open the playground and conversation review to troubleshoot. IT cannot change the golden test set or a saved baseline. |
 | P18 | IT grants and revokes Pension Services admin by name. It takes effect immediately, including a session that is already open, and it is recorded. Pension Services cannot grant this role. |
 
-#### Playground and regression — good to have
+#### Playground — required
 
-The chatbot runs if this module is not delivered.
+A private test, before members can see a change. Pension Services types a question and reads the answer the bot would give. It is not a member conversation. The golden set is the fixed list of questions rerun after a change, to see what moved.
+
+This is required. It is removed only if CSI pushes back on price and BOCIPT accepts that in writing (O11).
 
 | ID | Requirement |
 | --- | --- |
@@ -232,11 +234,13 @@ The chatbot runs if this module is not delivered.
 | P23 | After an edit, show the before and after answer for every golden-set question that the edit affected. |
 | P24 | Accept the current results as the new baseline. The approval records the Pension Services admin who accepted it. IT cannot approve a baseline. |
 
-The release test in section 5.4 still applies if this module is not delivered. In that case the test is run outside the portal.
+The release test in section 5.4 is this golden set. It is run in the portal.
 
-#### Conversation review — good to have
+#### Conversation review — required
 
-The chatbot runs if this module is not delivered. If it is delivered, its point is the unanswered queue: a question the bot could not answer becomes an item Pension Services can write, and the next member can get an answer.
+This is not the playground. The playground is a question Pension Services types, before publish. Conversation review is what real members already asked, after the chat.
+
+Pension Services uses it to find a complaint, see which questions come up most, see what the bot could not answer, and write the missing library entry from that question. A correct refusal, such as “which fund should I pick?”, stays in its own list. It is not treated as missing content.
 
 | ID | Requirement |
 | --- | --- |
@@ -356,7 +360,7 @@ The design states the peak it was sized for. A later change to that peak is a ch
 - Personal data is used to answer the member who owns it, and for the operation and audit of this service. It is not used to build a marketing profile.
 - Because the bot does not carry out a suitability assessment, it does not create the suitability file that regulations require a person to keep when they do give advice.
 - Every factual claim is traceable to the library or to the account fields retrieved for that turn.
-- Pension Services and the project team hold a shared test of about 30 to 50 questions, half ordinary and half traps. It is rerun when the library changes and when a release changes answers. “Which fund should I pick?” remains a refusal. A release that fails a trap does not go live. If the portal golden-set module (P21–P24) is not delivered, this test is still run, outside the portal.
+- Pension Services and the project team hold a shared test of about 30 to 50 questions, half ordinary and half traps. It is rerun in the portal when the library changes and when a release changes answers. “Which fund should I pick?” remains a refusal. A release that fails a trap does not go live.
 - The refusal rules are configured at build. Staff cannot edit them in the internal portal.
 
 ---
@@ -405,5 +409,5 @@ CSI does not close an open point by choosing a convenient default. An assumption
 | O8 | Where sandbox inference runs, and what data may reach it | Business Technology, with CSI |
 | O9 | Whether the account source can supply an as-at time | Business Technology |
 | O10 | A session code the member could quote to the call centre | Not in this build. Recorded so it is not added silently. |
-| O11 | Whether the playground, golden-set regression, and conversation review (P19–P30) are in the product. If they are not, the build is the library, the activity log, and access control. A substitute is not added without saying so. | CSI |
+| O11 | The playground (P19–P24) is required. It is removed only if CSI pushes back on price and BOCIPT accepts that in writing. | CSI, then BOCIPT |
 | O12 | A named Pension Services owner for the library. About 100 staff may use the portal. The library needs an owner, not the whole department. | Pension Services |
