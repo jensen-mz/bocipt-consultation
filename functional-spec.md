@@ -5,7 +5,7 @@
 **Audience:** CSI, to design and build against. BOCPT Pension Services and Business Technology, to confirm.  
 **What this document is:** The behaviour, the data the bot may use, and the constraints that are not optional.  
 **What this document is not:** The technical design. CSI writes that, and it is checked against this spec.  
-**User journeys:** Detailed journeys will be attached. They have to follow the rules in this document. They do not add scope by themselves.
+**User stories:** Attached separately. They follow this specification. They are not repeated here, and they do not add behaviour on their own.
 
 Working titles, as used for the regulator pack:
 
@@ -29,7 +29,7 @@ The bot follows that split. It reads the figures BOCPT already shows. For a chan
 
 - Prospects and members of BOCPT’s two MPF schemes, on the website and the app.
 - Read-only answers after login.
-- An internal portal for Pension Services and IT, specified in section 3.7. Members never see it.
+- An internal portal for Pension Services and IT, specified in section 3.6. Members never see it.
 
 **Out of scope**
 
@@ -115,195 +115,50 @@ If the library and the account data do not contain the answer, the bot says it d
 
 ### 3.5 Chat behaviour
 
-The website and the app show the same chatbot. These behaviours apply to every scenario.
-
-| ID | Behaviour |
+| ID | Requirement |
 | --- | --- |
-| C1 | One chatbot service on the website and the mobile app. Both use the same backend and return the same answer for the same question and the same session. |
-| C2 | When the chat opens, the person can type. If Level 3 is on, a Timely Update from the library may be the first thing shown. |
-| C3 | A person who is not logged in and asks for account data is told to sign in with the existing member login. The chat does not collect identity and does not show account data. |
-| C4 | After logout, account answers stop. |
-| C5 | A chart uses only the figures retrieved for that request, in a fixed layout. The model does not invent the numbers. |
-| C6 | For a switch, a withdrawal, a transfer, or a contribution, the bot names the form and gives the public eMPF address, from the library. It does not describe the eMPF screens and it does not submit the instruction. |
-| C7 | A factual answer cites the document or the account source. A Timely Update cites the notice. Names in the answer follow the glossary. |
-| C8 | If the library and, where the person is logged in, the account data do not contain the answer, the bot says it does not know. |
-| C9 | The bot answers, or it says it cannot. It does not hand the conversation to a person. |
-| C10 | The bot answers in the language the person is using, limited to languages the library holds. |
+| C1 | One chatbot service on the website and the mobile app, on one backend. |
+| C2 | Account data is returned only inside the existing member session, and stops when that session ends. The chat does not collect identity. |
+| C3 | A chart is rendered from the figures retrieved for that request, in a fixed layout. |
+| C4 | An answer uses the glossary of special names held in the portal. |
 
 How long a conversation is kept, and whether it continues across visits, is open. See section 6.
 
-### 3.6 Scenarios
+The user stories are attached separately. They cover public MPF questions, BOCPT scheme and fund facts, account balance and fund split, contribution history and statements, finding an existing member page, Level 3 library material, and Timely Update.
 
-Journeys may be attached later. They follow these rows. They do not add behaviour on their own.
-
-**S1 — Understanding MPF.** Level 1. Public and members.
-
-| | |
-| --- | --- |
-| Person can ask | A public MPF rule that is in the library, including what MPF is and the contribution types. |
-| Bot reads | Level 1 documents. |
-| Bot shows | The fact from those documents. |
-| Bot cites | The document. |
-| Bot refuses | Which fund to pick, whether this person should join, and whether they should pay more. A switch, withdrawal, transfer, or contribution follows C6. |
-
-**S2 — Our schemes and funds.** Level 1. Public and members.
-
-| | |
-| --- | --- |
-| Person can ask | BOCPT’s schemes, funds, fees, fact sheets, and the asset manager information already in the library. |
-| Bot reads | Level 1 documents. |
-| Bot shows | The published fact. |
-| Bot cites | The document. |
-| Bot refuses | A comparison with another trustee, including whether BOCPT’s fees are the lowest. |
-
-**S3 — Balance, fund split, and performance.** Level 2. Logged-in member.
-
-| | |
-| --- | --- |
-| Person can ask | The balance, the fund split, or the performance figures this member can already see on the member site. |
-| Bot reads | That member’s account fields in section 4.1. No session follows C3. |
-| Bot shows | Those figures. Where a chart helps, it follows C5. |
-| Bot cites | The account source, including the as-at time when the source provides one. |
-| Bot refuses | A projection, a simulator, and advice to change the split. |
-
-**S4 — Contribution history and statements.** Level 2. Logged-in member.
-
-| | |
-| --- | --- |
-| Person can ask | The contribution history, or a statement this member can already open. |
-| Bot reads | That member’s contribution entries and the statement list in section 4.1. |
-| Bot shows | The entries, and the statement file the site already holds. |
-| Bot cites | The account source. |
-| Bot refuses | A newly produced statement, and what the member should do next with the money. |
-
-**S5 — Finding it on the member site.** Level 2. Logged-in member.
-
-| | |
-| --- | --- |
-| Person can ask | Where to see a figure or an existing tool on the member site. |
-| Bot reads | The approved description of pages that already exist on the member site. |
-| Bot shows | The page name and what that page shows. |
-| Bot cites | That page description. |
-| Bot refuses | Rebuilding that tool inside the chat. An eMPF task follows C6. |
-
-**S6 — Level 3 library material.** Level 3. Public and members. Sandbox.
-
-| | |
-| --- | --- |
-| Person can ask | A question answered by a document tagged Level 3. |
-| Bot reads | Level 3 documents in the library. |
-| Bot shows | The answer from that document. |
-| Bot cites | The document. |
-| Bot refuses | A recommendation or advice. |
-
-**S7 — Timely Update.** Level 3. Public and members. Sandbox.
-
-| | |
-| --- | --- |
-| When it appears | When Level 3 is on, as the first thing in the chat (C2), or attached after an answer. The person does not have to ask. |
-| Bot reads | A published notice tagged Level 3. The member’s account is not read to choose it. |
-| Bot shows | The notice. |
-| Bot cites | The notice. |
-| Bot refuses | Choosing the notice from the member’s account, and turning the notice into an instruction. |
-
-### 3.7 Internal portal
+### 3.6 Internal portal
 
 Staff do not run the chatbot from the member website or the app. They use a separate web portal on the same platform. Members never open it.
 
-Pension Services is accountable for what the bot says. They are not technical, and they do this between calls, so a content change must not need an IT ticket. IT runs access and supports the platform, and must not be able to change what members are told.
-
 | Capability | Pension Services admin | IT admin |
 | --- | --- | --- |
-| Library — upload, add text, download, disable, restore, delete | Full | Read only |
+| Library | Full | Read only |
 | Activity log | View | View and export |
 | Playground and golden test set | Full | View only |
 | Conversation review | Full | View only |
 | Provision or revoke a Pension Services admin | No | Yes |
 | System prompt, model temperature, agent building blocks | Locked | Locked |
-| Refusal rules | Set at build. Not editable. | Set at build. Not editable. |
+| Refusal rules | Set at build. Not editable | Set at build. Not editable |
 
-Every restriction is enforced on the server. Hiding a control in the screen is not enough. It must hold when the interface is called directly with the wrong role.
+Every restriction is enforced on the server.
 
-The library, the activity log, access control, the playground, and conversation review are required.
+**Library.** Documents and free text. A batch upload reports each file and continues when one file fails. Pension Services defines the labels. A document can carry more than one, including Level 1 or Level 3. There is no editing in the portal, and no approval step before a document can be used. A change is a download and a new upload. A complete content overlap is detected by hash and is not stored twice. Where documents overlap, the newer one is used. Disable keeps the file and removes it from retrieval immediately. Restore returns it. Delete is permanent, confirmed once, and confirmed again when the document is live. Search covers the content and can filter by label and status. Status shows live, disabled, and scheduled. A document can be stored now and withheld until a date, and that date can be moved or cancelled. A glossary of special names is maintained for answers. Retrieval uses a multimodal embedding. Separate language copies are not required.
 
-#### Library — must have
+**Log and access.** The log records who uploaded, downloaded, disabled, restored, or deleted a document, and when. The log cannot be changed. IT can export a date range, including failed attempts. IT cannot change library content, the golden set, or a baseline. IT grants and revokes Pension Services admin by name, with immediate effect on an open session. Pension Services cannot grant that role.
 
-There is no approval step. A document Pension Services uploads is available to the chatbot, unless they disable it or set a future date. There is no editing inside the portal. To change a document, staff download it, change it outside the portal, remove the old one, and upload the new one.
+**Playground.** A private run is not stored as a member conversation. It shows which document and passage produced the answer, or that nothing matched. The golden set stores an expected meaning, not an exact sentence. A run shows which questions changed against the last baseline, including the before and after where a library change affected them. Only a Pension Services admin can accept a new baseline. The release test in section 5.4 is this set.
 
-| ID | Requirement |
-| --- | --- |
-| P1 | Upload documents in a batch. Each document can be given labels at upload. Report which files succeeded and which failed. Retry only the failures. One bad file does not fail the batch. |
-| P2 | Add a document by typing free text. This is a document, not a question paired with an answer. |
-| P3 | Where documents overlap, the chatbot uses the newer document. |
-| P4 | On upload, hash the file. If the content is a complete overlap with a document already stored, flag it and do not keep a second copy. |
-| P5 | Download a document. |
-| P6 | Delete a document permanently, after confirmation. State that it cannot be undone. If the document is live, require a second confirmation. |
-| P7 | Disable a document. The file stays stored. The chatbot stops using it immediately. |
-| P8 | Restore a disabled document. The chatbot uses it again. |
-| P9 | Staff define the labels. A document can have more than one. The level tag (Level 1 or Level 3) is one of these labels. |
-| P10 | Search and filter by label, status, and keyword. Search looks inside the content, not only the title. |
-| P11 | One status screen: what is live, what is disabled, and what is waiting for a future date. This is not an approval queue. |
-| P12 | Upload a document now and set the date the chatbot may start using it. Until that date, the chatbot cannot use it. Staff can move or cancel the date before it arrives. |
-| P13 | Maintain a glossary of special names. When the chatbot answers, it uses the names in that glossary. |
+**Conversation review.** A conversation can be found by keyword, date, or topic, and read in full. An export of conversations is logged. Questions for a period can be ranked and grouped by meaning. Questions the bot could not answer are listed separately from refusals. An unanswered question can be saved as a library document and linked to that question. Volume, sessions, and answer rate can be reported and exported for a period. Personal data in a conversation is masked for staff. See section 3.3.
 
-Retrieval uses a multimodal embedding. The portal does not keep a separate language copy of each document.
+**Not available in the portal.** The system prompt, model temperature, agent building blocks, and refusal rules. In-portal editing of a library document. Handing a chat to a person.
 
-#### Activity log and access — must have
-
-| ID | Requirement |
-| --- | --- |
-| P14 | The portal shows who uploaded, downloaded, disabled, restored, or deleted a document, and when. Nobody can edit or delete that log, including Pension Services. |
-| P15 | IT can export the activity log for a date range. The export includes failed and rejected attempts. |
-| P16 | Pension Services manages the library, the playground, and conversation review without an approval step. They cannot change the system prompt, the model settings, or the refusal rules. |
-| P17 | IT can read the library and its log, and can open the playground and conversation review. Upload, free text, download, disable, restore, and delete are unavailable to IT on the server. IT cannot change the golden test set or a saved baseline. |
-| P18 | IT grants and revokes Pension Services admin by name. It takes effect immediately, including a session that is already open, and it is recorded. Pension Services cannot grant this role. |
-
-#### Playground — required
-
-A private test, before members can see a change. Pension Services types a question and reads the answer the bot would give. It is not a member conversation. The golden set is the fixed list of questions rerun after a change, to see what moved.
-
-| ID | Requirement |
-| --- | --- |
-| P19 | Before publishing, type a question in a private playground and see the answer the bot would give. Those turns are not written into member conversation records. |
-| P20 | Show which library item produced an answer, and which part of it. Say clearly when nothing matched. |
-| P21 | Hold a golden set of questions and expected answers. The expected answer is a meaning, not an exact sentence. |
-| P22 | Run the golden set and compare it with the last known-good result. Show which questions changed, not only a count. |
-| P23 | After a library change, show the before and after answer for every golden-set question that the change affected. |
-| P24 | Accept the current results as the new baseline. The approval records the Pension Services admin who accepted it. IT cannot approve a baseline. |
-
-The release test in section 5.4 is this golden set. It is run in the portal.
-
-#### Conversation review — required
-
-This is not the playground. The playground is a question Pension Services types, before publish. Conversation review is what real members already asked, after the chat.
-
-Pension Services uses it to find a complaint, see which questions come up most, see what the bot could not answer, and write the missing library entry from that question. A correct refusal, such as “which fund should I pick?”, stays in its own list. It is not treated as missing content.
-
-| ID | Requirement |
-| --- | --- |
-| P25 | Find a conversation by keyword, date, or topic, and read the full exchange. |
-| P26 | Export a filtered set of conversations. Record who exported what, and when. These files contain member data. |
-| P27 | For a chosen period, rank the most common questions and group them by meaning, with examples under each. |
-| P28 | List questions the bot could not answer, ranked. Keep refusals in a separate list. A correct refusal of advice is not missing content. Show that refusal list on its own. |
-| P29 | Create a library document from an unanswered question. Carry the person’s wording across, link the question to the new document, and take it off the queue once it is filled. |
-| P30 | Report conversation volume, sessions, and the answer rate for any period, and export that report. |
-
-Where conversation records exist, personal data in them is masked when staff view them. See section 3.3. BOCPT and Compliance set when a recorded reason allows the mask to be lifted.
-
-#### Not available in the portal
-
-- Editing the system prompt, the model temperature, or the agent building blocks. Staff cannot version these, and there is no rollback of them.
-- Editing the refusal rules. BOCPT supplies the rules. The vendor configures them at build.
-- Editing a library document inside the portal. Staff download it, change it outside, and upload it again.
-- Handing a chat to a person.
-
-### 3.8 Library
+### 3.7 Library
 
 The bot answers from documents Pension Services loads in the portal. If it is not in the library, the bot does not know it.
 
 The same library holds Level 1 and Level 3. Each document is tagged with its level. Level 3 does not come from a separate feed, and it is not chosen from the member’s record. A newer document is used where documents overlap.
 
-The vendor builds the portal actions in section 3.7. Choosing the documents and deciding what is fit to publish are Pension Services’ job, not the vendor’s.
+The vendor builds the portal actions in section 3.6. Choosing the documents and deciding what is fit to publish are Pension Services’ job, not the vendor’s.
 
 Account answers in Level 2 come from the member record, not from this library. The library does not contain member records. A logged-in member can still be answered from a Level 1 or Level 3 document.
 
