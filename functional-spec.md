@@ -1,7 +1,7 @@
 # BOCIPT member chatbot — functional specification
 
 **Status:** Draft for CSI  
-**Date:** 20 October 2026  
+**Date:** 21 October 2026  
 **Audience:** CSI, to design and build against. BOCIPT Pension Services and Business Technology, to confirm.  
 **What this document is:** The behaviour, the data the bot may use, and the constraints that are not optional.  
 **What this document is not:** The technical design. CSI writes that, and it is checked against this spec.  
@@ -31,7 +31,7 @@ Viewing means balance, fund split, contribution history, and statements. Acting 
 
 - Prospects and members of BOCIPT’s two MPF schemes, on the website and the app.
 - Read-only answers after login.
-- An internal portal for Pension Services and IT. Members never see it. What staff can do there is summarised in section 3.6. The step-by-step stories are in `internal-user-requirements.md`.
+- An internal portal for Pension Services and IT, specified in section 3.6. Members never see it.
 
 **Out of scope**
 
@@ -171,21 +171,95 @@ How long a conversation is kept, and whether it continues across visits, is open
 
 ### 3.6 Internal portal
 
-Staff do not run the chatbot from the member website or the app. They use a separate web portal on the same platform.
+Staff do not run the chatbot from the member website or the app. They use a separate web portal on the same platform. Members never open it.
 
-**Pension Services admin.** Owns what members are told. Loads the library, edits an entry, turns an entry off immediately, tests an answer before members can see it, and reviews conversations. Cannot create another admin. Cannot change the model or the refusal rules.
+Pension Services is accountable for what the bot says. They are not technical, and they do this between calls, so a content change must not need an IT ticket. IT runs access and supports the platform, and must not be able to change what members are told.
 
-**IT admin.** Runs access and the platform. Creates and removes Pension Services accounts, reads logs, and troubleshoots. Cannot change the wording members are told. Sees member data in a conversation only when there is a recorded reason.
+| Capability | Pension Services admin | IT admin |
+| --- | --- | --- |
+| Library — add, edit, enable, disable, delete | Full | Read only |
+| Activity log | View | View and export |
+| Playground and golden test set | Full, where that module is delivered | View only |
+| Conversations and analysis | Full, where that module is delivered | View only |
+| Provision or revoke a Pension Services admin | No | Yes |
+| System prompt, model temperature, agent building blocks | Locked | Locked |
+| Refusal rules | Set at build. Not editable. | Set at build. Not editable. |
 
-The two roles are enforced on the server. Hiding a button is not enough.
+Every restriction is enforced on the server. Hiding a control in the screen is not enough. It must hold when the interface is called directly with the wrong role.
 
-The stories and the access matrix are in `internal-user-requirements.md`. This spec requires that the portal exists, that the two roles stay separate, and that a change Pension Services publishes is what the member chatbot says next.
+The library, the activity log, and access control are must have. The chatbot runs without the playground and without conversation review. Those two modules are good to have. Whether the product includes them is open (O11).
+
+#### Library — must have
+
+| ID | Requirement |
+| --- | --- |
+| P1 | Upload a folder of approved documents in one action. Report which files succeeded and which failed. Retry only the failures. One bad file does not fail the whole batch. |
+| P2 | Add one question and answer, and publish it. Warn if a near-duplicate is already in the library. |
+| P3 | Edit an entry and save. The chatbot uses the new text immediately. If a colleague changed the same entry while it was open, say so. Do not silently overwrite. |
+| P4 | Disable an entry immediately. It stops being used at once, not at a later rebuild. The content is kept. |
+| P5 | Restore a disabled entry. Warn if the source document has been replaced since it was disabled. |
+| P6 | Delete permanently only after confirmation, and state that it cannot be undone. If the entry is live and in use, require a second confirmation. |
+| P7 | Every entry has exactly one category. The portal supports at least: scheme information, forms, fund facts, complaints, and member guidance. |
+| P8 | Search and filter by category, status, language, and keyword. Search looks inside the content, not only the title. |
+| P9 | One status screen: what is live, what is disabled, what is waiting for review, and what is missing a language version. |
+| P10 | When a new document replaces an old one, flag every entry sourced from the old document for review. List those flags together, and show them on the status screen. |
+| P11 | Load content now and set the date it goes live. Cancel or move that date before it takes effect. |
+| P12 | For each entry, show which in-scope language versions exist and which are missing. Publishing in one language only is an explicit choice, not the default. |
+
+An edit to a live entry takes effect immediately (P3, P4). New material can be held until a date (P11). Those are different actions.
+
+#### Activity log and access — must have
+
+| ID | Requirement |
+| --- | --- |
+| P13 | Pension Services can open an entry’s history: the named person, the time, and the text before and after. Nobody can edit or delete that history, including Pension Services. |
+| P14 | IT can export the activity log for a date range. The export includes failed and rejected attempts. |
+| P15 | Pension Services manages the library without a further approval step. Where the later modules exist, the same applies to testing and conversation review. They cannot change the system prompt, the model settings, or the refusal rules. |
+| P16 | IT can read the library and its history. Add, edit, enable, disable, and delete are unavailable to IT on the server. |
+| P17 | Where testing or conversation screens exist, IT can open them to troubleshoot and cannot change the golden test set or a saved baseline. |
+| P18 | IT grants and revokes Pension Services admin by name. It takes effect immediately, including a session that is already open, and it is recorded. Pension Services cannot grant this role. |
+
+#### Playground and regression — good to have
+
+The chatbot runs if this module is not delivered.
+
+| ID | Requirement |
+| --- | --- |
+| P19 | Before publishing, type a question in a private playground and see the answer the bot would give. Those turns are not written into member conversation records. |
+| P20 | Show which library item produced an answer, and which part of it. Say clearly when nothing matched. |
+| P21 | Hold a golden set of questions and expected answers. The expected answer is a meaning, not an exact sentence. |
+| P22 | Run the golden set and compare it with the last known-good result. Show which questions changed, not only a count. |
+| P23 | After an edit, show the before and after answer for every golden-set question that the edit affected. |
+| P24 | Accept the current results as the new baseline. The approval records the Pension Services admin who accepted it. IT cannot approve a baseline. |
+
+The release test in section 5.4 still applies if this module is not delivered. In that case the test is run outside the portal.
+
+#### Conversation review — good to have
+
+The chatbot runs if this module is not delivered. If it is delivered, its point is the unanswered queue: a question the bot could not answer becomes an item Pension Services can write, and the next member can get an answer.
+
+| ID | Requirement |
+| --- | --- |
+| P25 | Find a conversation by keyword, date, or topic, and read the full exchange. |
+| P26 | Export a filtered set of conversations. Record who exported what, and when. These files contain member data. |
+| P27 | For a chosen period, rank the most common questions and group them by meaning, with examples under each. |
+| P28 | List questions the bot could not answer, ranked. Keep refusals in a separate list. A correct refusal of advice is not missing content. Show that refusal list on its own. |
+| P29 | Create a library entry from an unanswered question. Carry the member’s wording across, link the question to the new entry, and take it off the queue once it is filled. |
+| P30 | Report conversation volume, sessions, and the answer rate for any period, and export that report. |
+
+Where conversation records exist, member identifiers in them are masked or withheld unless there is a recorded reason. That rule is mandatory. BOCIPT and Compliance set it. See section 5.3.
+
+#### Not available in the portal
+
+- Editing the system prompt, the model temperature, or the agent building blocks. Staff cannot version these, and there is no rollback of them.
+- Editing the refusal rules. BOCIPT supplies the rules. The vendor configures them at build.
+- Handing a chat to a person.
 
 ### 3.7 Library
 
-The bot answers public questions only from a library Pension Services loads and approves. If it is not in the library, the bot does not know it.
+The bot answers public questions only from the library Pension Services loads and approves in the portal. If it is not in the library, the bot does not know it.
 
-The vendor provides the means to load, update, withdraw, and retrieve that material through the internal portal. Choosing the documents, writing the answers, and deciding that a document is fit to publish are Pension Services’ job, not the vendor’s.
+The vendor builds the portal actions in section 3.6. Choosing the documents, writing the answers, and deciding that a document is fit to publish are Pension Services’ job, not the vendor’s.
 
 Account answers in Level 2 come from the member record, not from this library. The library does not contain member records.
 
@@ -282,7 +356,7 @@ The design states the peak it was sized for. A later change to that peak is a ch
 - Personal data is used to answer the member who owns it, and for the operation and audit of this service. It is not used to build a marketing profile.
 - Because the bot does not carry out a suitability assessment, it does not create the suitability file that regulations require a person to keep when they do give advice.
 - Every factual claim is traceable to the library or to the account fields retrieved for that turn.
-- Pension Services and the project team hold a shared test of about 30 to 50 questions, half ordinary and half traps. It is rerun when the library changes and when a release changes answers. “Which fund should I pick?” remains a refusal. A release that fails a trap does not go live.
+- Pension Services and the project team hold a shared test of about 30 to 50 questions, half ordinary and half traps. It is rerun when the library changes and when a release changes answers. “Which fund should I pick?” remains a refusal. A release that fails a trap does not go live. If the portal golden-set module (P21–P24) is not delivered, this test is still run, outside the portal.
 - The refusal rules are configured at build. Staff cannot edit them in the internal portal.
 
 ---
@@ -327,7 +401,9 @@ CSI does not close an open point by choosing a convenient default. An assumption
 | O4 | How long a chat and its history are kept | Compliance |
 | O5 | How long admin and retrieval logs are kept | Compliance |
 | O6 | Staff sign-in: company login or local accounts | Business Technology |
-| O7 | Simplified Chinese | Pension Services |
+| O7 | Simplified Chinese. English and Traditional Chinese are in scope (A6). How those languages are indexed is confirmed before retrieval is designed. | Pension Services, then CSI |
 | O8 | Where sandbox inference runs, and what data may reach it | Business Technology, with CSI |
 | O9 | Whether the account source can supply an as-at time | Business Technology |
 | O10 | A session code the member could quote to the call centre | Not in this build. Recorded so it is not added silently. |
+| O11 | Whether the playground, golden-set regression, and conversation review (P19–P30) are in the product. If they are not, the build is the library, the activity log, and access control. A substitute is not added without saying so. | CSI |
+| O12 | A named Pension Services owner for the library. About 100 staff may use the portal. The library needs an owner, not the whole department. | Pension Services |
