@@ -1,8 +1,8 @@
-# BOCIPT member chatbot — functional specification
+# BOCPT member chatbot — functional specification
 
 **Status:** Draft for CSI  
 **Date:** 21 October 2026  
-**Audience:** CSI, to design and build against. BOCIPT Pension Services and Business Technology, to confirm.  
+**Audience:** CSI, to design and build against. BOCPT Pension Services and Business Technology, to confirm.  
 **What this document is:** The behaviour, the data the bot may use, and the constraints that are not optional.  
 **What this document is not:** The technical design. CSI writes that, and it is checked against this spec.  
 **User journeys:** Detailed journeys will be attached. They have to follow the rules in this document. They do not add scope by themselves.
@@ -19,17 +19,17 @@ Working titles, as used for the regulator pack:
 
 ## 1. Purpose and boundary
 
-BOCIPT wants a chatbot on its member website and mobile app. It answers questions about MPF and about the member’s own account, using material BOCIPT has approved and figures BOCIPT already shows.
+BOCPT wants a chatbot on its member website and mobile app. It answers questions about MPF and about the member’s own account, using material BOCPT has approved and figures BOCPT already shows.
 
 Since 5 June 2025 the line is:
 
-> The member can view with BOCIPT. The member acts on eMPF.
+> The member can view with BOCPT. The member acts on eMPF.
 
 Viewing means balance, fund split, contribution history, and statements. Acting means a switch, a withdrawal, a transfer, or a contribution. Those instructions are submitted to eMPF. The bot names the form and gives the public pointer. It does not walk the member through eMPF screens, and it does not submit anything.
 
 **In scope**
 
-- Prospects and members of BOCIPT’s two MPF schemes, on the website and the app.
+- Prospects and members of BOCPT’s two MPF schemes, on the website and the app.
 - Read-only answers after login.
 - An internal portal for Pension Services and IT, specified in section 3.6. Members never see it.
 
@@ -72,14 +72,14 @@ The member site is in English and Traditional Chinese. The bot answers in the la
 
 ### 3.1 The three levels
 
-**Level 1 — AI Digital Ambassador.** Before login. Statutory MPF facts and BOCIPT’s own published scheme and fund facts. No member record is read.
+**Level 1 — AI Digital Ambassador.** Before login. Statutory MPF facts and BOCPT’s own published scheme and fund facts. No member record is read.
 
 **Level 2 — Smart AI Member Engagement.** After login. Read-only retrieval of that member’s account, plus guidance to pages that already exist on the member site. A chart, where shown, is drawn from those retrieved figures. The bot does not calculate a new projection.
 
 **Level 3 — Smart AI Member Awareness.** Sandbox only. Two behaviours, both factual:
 
 - **Financial wellness.** Approved concepts: how a saving habit works, what a tax-deductible contribution is, what a statement is for. The aim is understanding. It is not a product offer and not a judgement on this member’s position.
-- **Timely update.** A notice BOCIPT has already published. Examples discussed: three new funds on a scheme, the tax-deductible contribution window in that season, the annual benefit statement being available. The notice can be the first thing shown when the chat opens. It can also be attached after an answer. It is not chosen from the member’s holdings, age, or risk.
+- **Timely update.** A notice BOCPT has already published. Examples discussed: three new funds on a scheme, the tax-deductible contribution window in that season, the annual benefit statement being available. The notice can be the first thing shown when the chat opens. It can also be attached after an answer. It is not chosen from the member’s holdings, age, or risk.
 
 Levels 1 and 2 must work with Level 3 switched off.
 
@@ -103,7 +103,7 @@ Every reply falls in one cell. The cell is decided by two questions: is this a f
 - Recommend a fund, a scheme, a switch, or a contribution amount.
 - Say that something suits this member’s age, risk, or goal.
 - Forecast a balance, a return, or whether the member is “on track”.
-- Compare BOCIPT with another trustee, or this member with other members.
+- Compare BOCPT with another trustee, or this member with other members.
 - Rank funds against each other as a suggestion.
 - Invent a fee, a performance figure, a date, or a rule.
 - Describe eMPF screen by screen.
@@ -124,7 +124,7 @@ Does: answer from approved public material and cite it.
 Refuses: which fund to pick, whether this person should join, whether they should pay more.
 
 **S2 — Our schemes and funds.**  
-BOCIPT’s own schemes, funds, fees, fact sheets, and the asset manager information BOCIPT already publishes. Standing facts, not only news.  
+BOCPT’s own schemes, funds, fees, fact sheets, and the asset manager information BOCPT already publishes. Standing facts, not only news.  
 Does: quote the published fact and cite the document.  
 Refuses: “are your fees the lowest”, and any comparison with another trustee.
 
@@ -153,7 +153,7 @@ Does: explain the concept. Cites the source.
 Refuses: “you should top up”, “this fund fits you”, or a gap between the member and a retirement target.
 
 **S7 — Timely update.**  
-A notice already published by BOCIPT.  
+A notice already published by BOCPT.  
 Does: show it when the chat opens, or attach it to an answer, with its source.  
 Refuses: to pick the notice from this member’s funds, age, or behaviour, and to turn the notice into an instruction.
 
@@ -249,12 +249,12 @@ Pension Services uses it to find a complaint, see which questions come up most, 
 | P29 | Create a library entry from an unanswered question. Carry the member’s wording across, link the question to the new entry, and take it off the queue once it is filled. |
 | P30 | Report conversation volume, sessions, and the answer rate for any period, and export that report. |
 
-Where conversation records exist, member identifiers in them are masked or withheld unless there is a recorded reason. That rule is mandatory. BOCIPT and Compliance set it. See section 5.3.
+Where conversation records exist, member identifiers in them are masked or withheld unless there is a recorded reason. That rule is mandatory. BOCPT and Compliance set it. See section 5.3.
 
 #### Not available in the portal
 
 - Editing the system prompt, the model temperature, or the agent building blocks. Staff cannot version these, and there is no rollback of them.
-- Editing the refusal rules. BOCIPT supplies the rules. The vendor configures them at build.
+- Editing the refusal rules. BOCPT supplies the rules. The vendor configures them at build.
 - Handing a chat to a person.
 
 ### 3.7 Library
@@ -308,12 +308,12 @@ Field names and the interface are CSI’s design, agreed with Business Technolog
 
 - No instruction is sent to eMPF or back into the member record.
 - A timely update is not selected by querying the member’s holdings or profile.
-- Member account data is not sent to a service outside BOCIPT’s control. Where the sandbox runs, and whether any data may leave the data centre for that run, is open. Until it is agreed, account data stays in the data centre.
+- Member account data is not sent to a service outside BOCPT’s control. Where the sandbox runs, and whether any data may leave the data centre for that run, is open. Until it is agreed, account data stays in the data centre.
 - Conversation records, the library, and logs stay on premise. They are not sent to a public model service, and they are not used to train a model.
 
 ### 4.4 Freshness
 
-eMPF now administers the schemes. BOCIPT’s own pages may not update at the same moment as eMPF. The bot reports the figure it was given. Where the source provides an as-at time, the bot shows it. The bot does not adjust the figure and does not claim it matches eMPF.
+eMPF now administers the schemes. BOCPT’s own pages may not update at the same moment as eMPF. The bot reports the figure it was given. Where the source provides an as-at time, the bot shows it. The bot does not adjust the figure and does not claim it matches eMPF.
 
 ---
 
@@ -338,7 +338,7 @@ The measure is the time until the member has the complete answer, on the web and
 | --- | --- | --- |
 | MPF member accounts, both schemes | About 900,000 | The size of the population. Not the number of concurrent users. Confirm the figure. |
 | People who may use the internal portal | About 100 in Pension Services, few of them admins | Size the portal for named staff, not for members. |
-| Peak concurrent chats | Not known | CSI sizes to a peak BOCIPT states. Until then the peak is an assumption, written down, not a silent guess. |
+| Peak concurrent chats | Not known | CSI sizes to a peak BOCPT states. Until then the peak is an assumption, written down, not a silent guess. |
 
 The design states the peak it was sized for. A later change to that peak is a change of scope.
 
@@ -349,7 +349,7 @@ The design states the peak it was sized for. A later change to that peak is a ch
 - The member’s session is checked on the server for every account request. Hiding a control in the screen is not sufficient.
 - One member cannot retrieve another member’s account by changing an identifier in the request.
 - Pension Services cannot grant the admin role. IT cannot change library content that members are told.
-- IT can troubleshoot without seeing member data by default. Seeing it requires a recorded reason. The rule is set by BOCIPT and Compliance.
+- IT can troubleshoot without seeing member data by default. Seeing it requires a recorded reason. The rule is set by BOCPT and Compliance.
 - Admin actions are logged: who did what, and when. Retrieval of account data into a conversation is logged.
 - Text inside a document or a member’s message cannot switch off the speaking rules.
 - Nothing in the prompt is sent to a cloud model API.
@@ -357,7 +357,7 @@ The design states the peak it was sized for. A later change to that peak is a ch
 ### 5.4 Compliance
 
 - The bot does not give investment advice, does not assess suitability, and does not forecast performance.
-- It does not recommend a scheme or a fund, including BOCIPT’s own funds.
+- It does not recommend a scheme or a fund, including BOCPT’s own funds.
 - It does not solicit a bank product.
 - Personal data is used to answer the member who owns it, and for the operation and audit of this service. It is not used to build a marketing profile.
 - Because the bot does not carry out a suitability assessment, it does not create the suitability file that regulations require a person to keep when they do give advice.
@@ -369,7 +369,7 @@ The design states the peak it was sized for. A later change to that peak is a ch
 
 ## 6. Assumptions, risks, and open points
 
-CSI does not close an open point by choosing a convenient default. An assumption used for sizing or design is written into the design and confirmed by BOCIPT.
+CSI does not close an open point by choosing a convenient default. An assumption used for sizing or design is written into the design and confirmed by BOCPT.
 
 ### 6.1 Assumptions
 
@@ -382,18 +382,18 @@ CSI does not close an open point by choosing a convenient default. An assumption
 | A5 | Levels 1 and 2 are the build. Level 3 is built only as the sandbox test. |
 | A6 | English and Traditional Chinese are the languages in scope. |
 | A7 | There is no call-centre handoff in this build. |
-| A8 | Peak concurrent chats will be supplied by BOCIPT before sizing is treated as final. |
+| A8 | Peak concurrent chats will be supplied by BOCPT before sizing is treated as final. |
 | A9 | Where a member has more than one account, the page they are on identifies which account, or the bot asks. |
 
 ### 6.2 Risks
 
 | ID | Risk | What the spec already does about it |
 | --- | --- | --- |
-| R1 | The balance on BOCIPT’s side lags eMPF, and the member treats the chat as wrong. | Show the figure as given, with the as-at time when the source has one. Do not reconcile to eMPF. |
+| R1 | The balance on BOCPT’s side lags eMPF, and the member treats the chat as wrong. | Show the figure as given, with the as-at time when the source has one. Do not reconcile to eMPF. |
 | R2 | A wrong answer on the official site is a trust and fraud issue, not only a content miss. | Answer only from the library and the member record. Cite the source. Say “I don’t know” when it is not there. |
 | R3 | The library is not maintained, so the bot keeps an old rule. | Pension Services can withdraw an entry immediately. Content ownership stays with them. |
 | R4 | Level 3 is stretched into advice or an unprompted product offer. | Speaking rules and the never-do list. The trap set must keep failing. |
-| R5 | Sandbox compute sits outside the data centre, and member data follows it. | Account data does not leave until BOCIPT agrees the path. |
+| R5 | Sandbox compute sits outside the data centre, and member data follows it. | Account data does not leave until BOCPT agrees the path. |
 | R6 | Sizing uses 900,000 as if they were concurrent users. | Section 5.2. The design states its peak. |
 | R7 | Chat records hold account data and are readable too widely. | Mask by default. Access by recorded reason. Retention still to be set. |
 
@@ -401,9 +401,9 @@ CSI does not close an open point by choosing a convenient default. An assumption
 
 | ID | Point | Who confirms |
 | --- | --- | --- |
-| O1 | Response-time targets | BOCIPT, then CSI designs to them |
-| O2 | Availability target | BOCIPT |
-| O3 | Peak concurrent chats | BOCIPT |
+| O1 | Response-time targets | BOCPT, then CSI designs to them |
+| O2 | Availability target | BOCPT |
+| O3 | Peak concurrent chats | BOCPT |
 | O4 | How long a chat and its history are kept | Compliance |
 | O5 | How long admin and retrieval logs are kept | Compliance |
 | O6 | Staff sign-in: company login or local accounts | Business Technology |
