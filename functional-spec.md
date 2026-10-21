@@ -31,7 +31,7 @@ Viewing means balance, fund split, contribution history, and statements. Acting 
 
 - Prospects and members of BOCIPT’s two MPF schemes, on the website and the app.
 - Read-only answers after login.
-- A console for Pension Services to load and check the library, and for IT to run the platform. Specified in `internal-user-requirements.md`. This document does not repeat those stories.
+- An internal portal for Pension Services and IT. Members never see it. What staff can do there is summarised in section 3.6. The step-by-step stories are in `internal-user-requirements.md`.
 
 **Out of scope**
 
@@ -44,18 +44,23 @@ Viewing means balance, fund split, contribution history, and statements. Acting 
 - An unprompted bank or partner product offer.
 - Live transfer of the chat into the call centre. That module was not bought.
 
-One chatbot, one backend, two channels (web and app).
+Two applications, on one on-premise platform.
+
+| Application | Who uses it | What it is |
+| --- | --- | --- |
+| Member chatbot | Prospect and member | One chatbot service, shown in two places: the member website and the mobile app. Both use the same backend. |
+| Internal portal | Pension Services and IT | A separate staff web application. It is how the service is run. It is not a third chat channel, and members do not open it. |
 
 ---
 
 ## 2. Users and channels
 
-| User | Login | What they can get |
-| --- | --- | --- |
-| Prospect, or anyone not logged in | No | Public facts only. Level 1. |
-| MPF member | Yes, the existing member login | Level 1, plus their own account (Level 2). Level 3 only inside the sandbox test. |
-| Pension Services admin | Internal | Loads and checks the library. Does not change the model or the refusal rules. |
-| IT admin | Internal | Accounts, logs, troubleshooting. Does not change what members are told. |
+| User | Where | Login | What they can get |
+| --- | --- | --- | --- |
+| Prospect, or anyone not logged in | Website or app | No | Public facts only. Level 1. |
+| MPF member | Website or app | Yes, the existing member login | Level 1, plus their own account (Level 2). Level 3 only inside the sandbox test. |
+| Pension Services admin | Internal portal | Internal | Loads and checks the library. Does not change the model or the refusal rules. |
+| IT admin | Internal portal | Internal | Accounts, logs, troubleshooting. Does not change what members are told. |
 
 A typed account number, HKID, or name is not a login. Without the existing member session, the bot has no account data.
 
@@ -164,15 +169,23 @@ Refuses: to pick the notice from this member’s funds, age, or behaviour, and t
 
 How long a conversation is kept, and whether it continues across visits, is open. See section 6.
 
-### 3.6 Console
+### 3.6 Internal portal
 
-Pension Services owns what the bot is allowed to say. IT owns access and operation. Neither role edits the refusal rules or the model. The stories, the access matrix, and the must-have behaviour are in `internal-user-requirements.md`.
+Staff do not run the chatbot from the member website or the app. They use a separate web portal on the same platform.
+
+**Pension Services admin.** Owns what members are told. Loads the library, edits an entry, turns an entry off immediately, tests an answer before members can see it, and reviews conversations. Cannot create another admin. Cannot change the model or the refusal rules.
+
+**IT admin.** Runs access and the platform. Creates and removes Pension Services accounts, reads logs, and troubleshoots. Cannot change the wording members are told. Sees member data in a conversation only when there is a recorded reason.
+
+The two roles are enforced on the server. Hiding a button is not enough.
+
+The stories and the access matrix are in `internal-user-requirements.md`. This spec requires that the portal exists, that the two roles stay separate, and that a change Pension Services publishes is what the member chatbot says next.
 
 ### 3.7 Library
 
 The bot answers public questions only from a library Pension Services loads and approves. If it is not in the library, the bot does not know it.
 
-The vendor provides the means to load, update, withdraw, and retrieve that material, as specified for the console. Choosing the documents, writing the answers, and deciding that a document is fit to publish are Pension Services’ job, not the vendor’s.
+The vendor provides the means to load, update, withdraw, and retrieve that material through the internal portal. Choosing the documents, writing the answers, and deciding that a document is fit to publish are Pension Services’ job, not the vendor’s.
 
 Account answers in Level 2 come from the member record, not from this library. The library does not contain member records.
 
@@ -191,7 +204,7 @@ The bot reads. It does not write. It does not become a second system of record.
 | DI-3 | The account data the member site already shows | Read only, for the logged-in member | Level 2 |
 | DI-4 | Statements already held for that member | Read only, or the download the site already offers | S4 |
 | DI-5 | eMPF | No system connection | A form name and a public address, taken from the library |
-| DI-6 | Admin console | Internal users only | Library and operations |
+| DI-6 | Internal portal | Internal users only | Library and operations |
 
 DI-3 is the same business information the member can see today after login:
 
@@ -209,7 +222,7 @@ Field names and the interface are CSI’s design, agreed with Business Technolog
 - The chat uses the member site’s existing session. There is no second password.
 - A Level 2 request without a valid session returns no account data.
 - The bot does not treat something typed in the chat as proof of who the member is.
-- Staff access to the console is a named person. Whether that is the company’s existing sign-in or a local account is open.
+- Staff access to the internal portal is a named person. Whether that is the company’s existing sign-in or a local account is open.
 
 ### 4.3 What must not cross
 
@@ -244,7 +257,7 @@ The measure is the time until the member has the complete answer, on the web and
 | Figure | Value | How to use it |
 | --- | --- | --- |
 | MPF member accounts, both schemes | About 900,000 | The size of the population. Not the number of concurrent users. Confirm the figure. |
-| People who may use the console | About 100 in Pension Services, few of them admins | Size the console for named staff, not for members. |
+| People who may use the internal portal | About 100 in Pension Services, few of them admins | Size the portal for named staff, not for members. |
 | Peak concurrent chats | Not known | CSI sizes to a peak BOCIPT states. Until then the peak is an assumption, written down, not a silent guess. |
 
 The design states the peak it was sized for. A later change to that peak is a change of scope.
@@ -270,7 +283,7 @@ The design states the peak it was sized for. A later change to that peak is a ch
 - Because the bot does not carry out a suitability assessment, it does not create the suitability file that regulations require a person to keep when they do give advice.
 - Every factual claim is traceable to the library or to the account fields retrieved for that turn.
 - Pension Services and the project team hold a shared test of about 30 to 50 questions, half ordinary and half traps. It is rerun when the library changes and when a release changes answers. “Which fund should I pick?” remains a refusal. A release that fails a trap does not go live.
-- The refusal rules are configured at build. Staff cannot edit them in the console.
+- The refusal rules are configured at build. Staff cannot edit them in the internal portal.
 
 ---
 
