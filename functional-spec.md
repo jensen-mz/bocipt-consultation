@@ -21,11 +21,9 @@ Working titles, as used for the regulator pack:
 
 BOCPT wants a chatbot on its member website and mobile app. It answers questions about MPF and about the member’s own account, using material BOCPT has approved and figures BOCPT already shows.
 
-Since 5 June 2025 the line is:
+Since 5 June 2025, BOCPT’s MPF schemes are administered on eMPF. The member looks up the account on BOCPT: the balance, the fund split, the contribution history, and the statements. The member submits a switch, a withdrawal, a transfer, or a contribution on eMPF.
 
-> The member can view with BOCPT. The member acts on eMPF.
-
-Viewing means balance, fund split, contribution history, and statements. Acting means a switch, a withdrawal, a transfer, or a contribution. Those instructions are submitted to eMPF. The bot names the form and gives the public pointer. It does not walk the member through eMPF screens, and it does not submit anything.
+The bot follows that split. It reads the figures BOCPT already shows. For a change, it names the form and gives the public eMPF address. It does not walk the member through eMPF screens, and it does not submit the instruction.
 
 **In scope**
 
