@@ -275,16 +275,18 @@ The bot reads. It does not write. It does not become a second system of record.
 
 ### 4.1 Sources
 
-| ID | Source | Direction | Used for |
-| --- | --- | --- | --- |
-| DI-1 | Approved library, loaded by Pension Services | Read | Level 1 answers, and Level 3 financial wellness concepts and timely updates |
-| DI-2 | Existing member website and mobile app | Embed the chat; share the logged-in session | Channel and identity |
-| DI-3 | The account data the member site already shows | Read only, for the logged-in member | Level 2 |
-| DI-4 | Statements already held for that member | Read only, or the download the site already offers | S4 |
-| DI-5 | eMPF | No system connection | A form name and a public address, taken from the library |
-| DI-6 | Internal portal | Internal users only | Library and operations |
+| ID | Level | Source | Direction | What it supplies |
+| --- | --- | --- | --- | --- |
+| DI-1 | Level 1 | Approved library, loaded by Pension Services | Read | Public MPF rules, and BOCPT scheme, fund, and fee facts |
+| DI-1 | Level 3 | Approved library, loaded by Pension Services | Read | Financial wellness concepts. How a saving habit works, what a tax-deductible contribution is, what a statement is for |
+| DI-1 | Level 3 | Approved library, loaded by Pension Services | Read | Timely updates. Notices BOCPT has already published, such as new funds on a scheme, the tax-deductible contribution window in that season, and the annual benefit statement being available. Shown when the chat opens, or attached after an answer. The member’s holdings, age, and risk are not used to choose it |
+| DI-2 | — | Existing member website and mobile app | Embed the chat; share the logged-in session | Channel and identity |
+| DI-3 | Level 2 | The account data the member site already shows | Read only, for the logged-in member | Balance, fund split, performance, contribution history, and the current investment election where the site already shows it |
+| DI-4 | Level 2 | Statements already held for that member | Read only, or the download the site already offers | Statement list and file |
+| DI-5 | — | eMPF | No system connection | A form name and a public address, taken from the library |
+| DI-6 | — | Internal portal | Internal users only | Library and operations |
 
-Level 1 and Level 3 are both read from DI-1. Level 3 has no source of its own.
+Level 1 and Level 3 are both read from the approved library, DI-1. Level 3 has no source of its own. A logged-in member still receives a Level 3 concept or notice from that library.
 
 DI-3 is the same business information the member can see today after login:
 
