@@ -199,7 +199,7 @@ The library, the activity log, access control, the playground, and conversation 
 | P4 | Disable an entry immediately. It stops being used at once, not at a later rebuild. The content is kept. |
 | P5 | Restore a disabled entry. Warn if the source document has been replaced since it was disabled. |
 | P6 | Delete permanently only after confirmation, and state that it cannot be undone. If the entry is live and in use, require a second confirmation. |
-| P7 | Every entry has exactly one category. The portal supports at least: scheme information, forms, fund facts, complaints, and member guidance. |
+| P7 | Every entry has exactly one category. The portal supports at least: scheme information, forms, fund facts, complaints, member guidance, financial wellness, and timely updates. |
 | P8 | Search and filter by category, status, language, and keyword. Search looks inside the content, not only the title. |
 | P9 | One status screen: what is live, what is disabled, what is waiting for review, and what is missing a language version. |
 | P10 | When a new document replaces an old one, flag every entry sourced from the old document for review. List those flags together, and show them on the status screen. |
@@ -259,11 +259,13 @@ Where conversation records exist, member identifiers in them are masked or withh
 
 ### 3.7 Library
 
-The bot answers public questions only from the library Pension Services loads and approves in the portal. If it is not in the library, the bot does not know it.
+The bot answers from the library Pension Services loads and approves in the portal. If it is not in the library, the bot does not know it.
+
+That library holds Level 1 and Level 3. Level 1 is the public scheme and MPF material. Level 3 is the financial wellness concepts and the timely updates. Both are approved entries in the same library. Level 3 does not come from a separate feed, and it is not chosen from the member’s record.
 
 The vendor builds the portal actions in section 3.6. Choosing the documents, writing the answers, and deciding that a document is fit to publish are Pension Services’ job, not the vendor’s.
 
-Account answers in Level 2 come from the member record, not from this library. The library does not contain member records.
+Account answers in Level 2 come from the member record, not from this library. The library does not contain member records. A logged-in member can still be answered from the library for a public fact, a wellness concept, or a timely update.
 
 ---
 
@@ -275,7 +277,7 @@ The bot reads. It does not write. It does not become a second system of record.
 
 | ID | Source | Direction | Used for |
 | --- | --- | --- | --- |
-| DI-1 | Approved library, loaded by Pension Services | Read | Level 1 answers, wellness concepts, timely updates |
+| DI-1 | Approved library, loaded by Pension Services | Read | Level 1 answers, and Level 3 financial wellness concepts and timely updates |
 | DI-2 | Existing member website and mobile app | Embed the chat; share the logged-in session | Channel and identity |
 | DI-3 | The account data the member site already shows | Read only, for the logged-in member | Level 2 |
 | DI-4 | Statements already held for that member | Read only, or the download the site already offers | S4 |
