@@ -48,10 +48,10 @@ This is the only place that states what each reply is allowed to contain.
 | --- | --- | --- |
 | General public | Website or app | None. What they can be shown is in section 1. |
 | MPF member | Website or app | The existing member login. What they can be shown is in section 1. |
-| Pension Services admin | Internal portal | A named staff account |
-| IT admin | Internal portal | A named staff account |
+| Pension Services admin | Internal portal | SSO |
+| IT admin | Internal portal | SSO |
 
-The site is in English and Traditional Chinese. The chatbot answers in the language the person is using, from material held in that language. Simplified Chinese is open (O7).
+The site is in English and Traditional Chinese. The chatbot answers in the language the person is using, from material held in that language. Simplified Chinese is open (O6).
 
 ---
 
@@ -80,12 +80,12 @@ The chatbot does not keep its own copy of member records. Field names on the API
 **Identity**
 
 - The chat uses the member site’s existing session. There is no second password.
-- Staff access to the portal is a named person. Company login or a local account is open (O6).
+- Staff sign in to the portal with SSO. The account is a named person.
 
 **What must not cross**
 
 - No instruction is sent to eMPF or written back to the member record.
-- Account data stays in the data centre until BOCPT agrees any path to sandbox compute (O8).
+- Account data stays in the data centre until BOCPT agrees any path to sandbox compute (O7).
 - Conversation records, the library, and logs are not sent to a public model service and are not used to train a model.
 
 **Freshness**
@@ -103,7 +103,7 @@ What a reply may contain is the information table in section 1. These are the ru
 | ID | Requirement |
 | --- | --- |
 | CH1 | A library document carries the level tag from section 1. Level 2 is the member session. It is not a document tag. |
-| CH2 | The input guardrail detects personal data in what a person types, including an identity-card number, treats it as sensitive, and masks it when staff view the conversation. |
+| CH2 | The input guardrail does two things. It detects personal data in what a person types, including an identity-card number, treats that text as sensitive, and masks it when staff view the conversation. It also refuses a topic that sits outside the rows in section 1, and it does not answer that topic from general knowledge. |
 | CH3 | Account data is returned only inside the existing member session, and stops when that session ends. The chat does not collect identity. |
 | CH4 | A chart is rendered from the settled figures retrieved for that request, in a fixed layout. |
 | CH5 | Where the allowed source for that row does not contain the answer, the chatbot says it does not know. |
@@ -134,7 +134,7 @@ What a reply may contain is the information table in section 1. These are the ru
 | PO10 | A glossary of special names is maintained. CH6 uses it. Retrieval uses a multimodal embedding. Separate language copies are not required. |
 | PO11 | The log records who uploaded, downloaded, disabled, restored, or deleted a document, and when. The log cannot be changed. IT can export a date range, including failed attempts. |
 | PO12 | IT grants and revokes Pension Services admin by name. The change applies immediately, including an open session. |
-| PO13 | A playground run is not stored as a member conversation. It shows the document and passage used, or that nothing matched. |
+| PO13 | A playground chat is stored in the playground, so the tester can open it again and compare runs. It shows the document and passage used, or that nothing matched. It is not a member conversation and it is not included in member reports. |
 | PO14 | The golden set stores an expected meaning, not an exact sentence. A run shows which questions changed against the last baseline. Only a Pension Services admin can accept a new baseline. |
 | PO15 | A conversation can be found by keyword, date, or topic, and read in full. An export of conversations is logged. |
 | PO16 | Questions for a period can be ranked and grouped by meaning. Questions the chatbot could not answer are listed separately from refusals. |
@@ -152,8 +152,7 @@ Choosing the documents is Pension Services’ job. The vendor builds the mechani
 | CN1 | Conversation records, the library, and logs are held on premise. |
 | CN2 | Prompts are not sent to a cloud model service. Records are not used to train a model. |
 | CN3 | The system prompt, model temperature, agent building blocks, and refusal rules are set at build. Staff cannot edit them. |
-| CN4 | Every access rule is enforced on the server. Hiding a control on screen is not sufficient. |
-| CN5 | This specification does not choose the product or the field names. CSI’s technical design is checked against it. |
+| CN4 | If a role is not allowed to do something, a direct call with that role fails. Hiding the button is not enough. |
 
 ---
 
@@ -226,7 +225,7 @@ CSI does not close an open point by choosing a default. An assumption used for d
 | R2 | A wrong answer on the official site is a trust and fraud issue. | Section 1 names the source. CH5. |
 | R3 | The library is not maintained, so the chatbot keeps an old rule. | PO6. Content ownership stays with Pension Services. |
 | R4 | Level 3 is stretched into a product recommendation. | The advice row in section 1. The trap in section 8 keeps failing. |
-| R5 | Sandbox compute sits outside the data centre, and member data follows it. | Account data stays until BOCPT agrees the path (O8). |
+| R5 | Sandbox compute sits outside the data centre, and member data follows it. | Account data stays until BOCPT agrees the path (O7). |
 | R6 | Sizing uses 900,000 as if they were concurrent users. | Q1 and Q8. |
 | R7 | Chat records hold account data and are readable too widely. | CH2 and Q11. Retention is still open (O4). |
 
@@ -239,12 +238,11 @@ CSI does not close an open point by choosing a default. An assumption used for d
 | O3 | Peak concurrent chats, Q1 | BOCPT |
 | O4 | How long a chat and its history are kept | Compliance |
 | O5 | How long admin and retrieval logs are kept | Compliance |
-| O6 | Staff sign-in: company login or local accounts | Business Technology |
-| O7 | Simplified Chinese. Retrieval uses a multimodal embedding. Separate language copies are not required. | Pension Services |
-| O8 | Where sandbox inference runs, and what data may reach it | Business Technology, with CSI |
-| O9 | Whether the account source can supply an as-at time | Business Technology |
-| O10 | A session code the member could quote to the call centre | Out of this build. Listed so it is not added silently. |
-| O11 | A named Pension Services owner for the library | Pension Services |
+| O6 | Simplified Chinese. Retrieval uses a multimodal embedding. Separate language copies are not required. | Pension Services |
+| O7 | Where sandbox inference runs, and what data may reach it | Business Technology, with CSI |
+| O8 | Whether the account source can supply an as-at time | Business Technology |
+| O9 | A session code the member could quote to the call centre | Out of this build. Listed so it is not added silently. |
+| O10 | A named Pension Services owner for the library | Pension Services |
 
 ---
 
