@@ -2,7 +2,7 @@
 
 **Status:** Draft for CSI  
 **Date:** 22 October 2026  
-**Revision:** Purpose and scope holds the information levels in one table. Later sections do not repeat them.  
+**Revision:** Section 1 holds what a reply may contain. CH1 to CH6 are behaviour rules on top of that table. Later sections do not repeat the table.  
 **Audience:** CSI, to design and build against. BOCPT Pension Services and Business Technology, to confirm.  
 **What this document is:** The behaviour, the data the system may use, and the constraints.  
 **What this document is not:** The technical design. CSI writes that, and it is checked against this spec.
@@ -98,9 +98,9 @@ eMPF administers the schemes. BOCPT’s figures may lag. The chatbot reports the
 
 ### 4.1 Chatbot
 
-What a reply may contain is the information table in section 1. These are the rules that table does not already state.
+Section 1, above, is the only place that states what a reply may contain. CH1 to CH6 are behaviour rules on top of that table. They say how the chatbot behaves. They do not repeat the table, and they are not user stories.
 
-| ID | Requirement |
+| ID | Behaviour rule |
 | --- | --- |
 | CH1 | A library document carries the level tag from section 1. Level 2 is the member session. It is not a document tag. |
 | CH2 | The input guardrail does two things. It detects personal data in what a person types, including an identity-card number, treats that text as sensitive, and masks it when staff view the conversation. It also refuses a topic that sits outside the rows in section 1, and it does not answer that topic from general knowledge. |
