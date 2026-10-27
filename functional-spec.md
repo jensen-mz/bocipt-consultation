@@ -2,7 +2,7 @@
 
 **Status:** Draft for CSI  
 **Date:** 22 October 2026  
-**Revision:** Section 1 holds what a reply may contain. Document metadata includes the source and freshness. CH1 to CH7 are behaviour rules on top of that table.  
+**Revision:** Peak is 40 concurrent chats. Level 1 and Level 3 show the first word in under 7 seconds. Level 2 shows the first word in under 10 seconds. A chart is shown in under 15 seconds.  
 **Audience:** CSI, to design and build against. BOCPT Pension Services and Business Technology, to confirm.  
 **What this document is:** The behaviour, the data the system may use, and the constraints.  
 **What this document is not:** The technical design. CSI writes that, and it is checked against this spec.
@@ -182,14 +182,14 @@ CN1 to CN4 are limits on the build. They bind the chatbot and the portal.
 
 ### 6.1 Performance
 
-Q1 to Q5 are the cases to measure: the time until the person has the complete answer, on the web and in the app, at the peak in Q1. The targets are not set. CSI does not fill them in and present them as agreed.
+Q1 is the peak the design is sized for. Q2 and Q3 are the time until the first word appears, on the web and in the app, at that peak. Level 1 and Level 3 both come from the library. Q4 is the time until the chart is shown. Q5 is still open.
 
 | ID | Case | Target |
 | --- | --- | --- |
-| Q1 | Peak concurrent chats the design is sized for | Open. O3. The design states the peak it used. A later change of peak is a change of scope. |
-| Q2 | A Level 1 answer from the library | Open. O1. |
-| Q3 | A Level 2 answer that reads the member record | Open. O1. |
-| Q4 | A chart rendered from those figures | Open. O1. |
+| Q1 | Peak concurrent chats the design is sized for | 40. A later change of peak is a change of scope. |
+| Q2 | A Level 1 or Level 3 answer from the library | Less than 7 seconds to the first word. |
+| Q3 | A Level 2 answer that reads the member record | Less than 10 seconds to the first word. |
+| Q4 | A chart rendered from those figures | Less than 15 seconds until the chart is shown. |
 | Q5 | Availability, relative to the member website | Open. O2. |
 
 ### 6.2 Volume
@@ -200,7 +200,7 @@ Q6 to Q8 are the figures used to size the service.
 | --- | --- | --- | --- |
 | Q6 | MPF member accounts, both schemes | About 900,000 | The size of the population. Confirm the figure. |
 | Q7 | People who may use the portal | About 100 in Pension Services, few of them admins | Size the portal for named staff. |
-| Q8 | Peak concurrent chats | Not known | Q1. Do not treat 900,000 as concurrent users. |
+| Q8 | Peak concurrent chats | 40 | Q1. Do not treat 900,000 as concurrent users. |
 
 ### 6.3 Security
 
@@ -244,7 +244,7 @@ A1 to A9 are what the design may treat as true. BOCPT confirms each one.
 | A5 | The three in-service rows in section 1 are the build. |
 | A6 | English and Traditional Chinese are the languages in scope. |
 | A7 | There is no call-centre handoff in this build. |
-| A8 | Peak concurrent chats will be supplied by BOCPT before sizing is treated as final. |
+| A8 | The service is sized for 40 concurrent chats, as in Q1. |
 | A9 | Where a member has more than one account, the page they are on identifies which account, or the chatbot asks. |
 
 ### 7.2 Risks
@@ -263,13 +263,11 @@ R1 to R7 are the risks. The last column is the rule this spec already uses for t
 
 ### 7.3 Open points
 
-O1 to O10 are still open. The last column is who confirms each one.
+These points are still open. The last column is who confirms each one.
 
 | ID | Point | Who confirms |
 | --- | --- | --- |
-| O1 | Response-time targets for Q2, Q3, and Q4 | BOCPT, then CSI designs to them |
 | O2 | Availability target, Q5 | BOCPT |
-| O3 | Peak concurrent chats, Q1 | BOCPT |
 | O4 | How long a chat and its history are kept | Compliance |
 | O5 | How long admin and retrieval logs are kept | Compliance |
 | O6 | Simplified Chinese. Retrieval uses a multimodal embedding. Separate language copies are not required. | Pension Services |
@@ -292,7 +290,7 @@ Each row is one part of the build and the check BOCPT uses to accept it.
 | Portal roles | A call with the wrong role against CN4, for the matrix in section 4.2. |
 | Library handling | Inspection of PO2, PO5, PO6, and PO11. |
 | Constraints | Inspection that records stay on premise and that prompts are not sent to a cloud model service. |
-| Performance and volume | Not accepted as agreed numbers until O1, O2, and O3 are filled. |
+| Performance and volume | Q1 to Q4 are the agreed targets. Availability is not an agreed number until O2 is filled. |
 
 ---
 
