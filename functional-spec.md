@@ -2,7 +2,7 @@
 
 **Status:** Draft for CSI  
 **Date:** 22 October 2026  
-**Revision:** Section 1 holds what a reply may contain. CH1 to CH6 are behaviour rules on top of that table. Later sections do not repeat the table.  
+**Revision:** Section 1 holds what a reply may contain. CH1 to CH7 are behaviour rules on top of that table. Later sections do not repeat the table.  
 **Audience:** CSI, to design and build against. BOCPT Pension Services and Business Technology, to confirm.  
 **What this document is:** The behaviour, the data the system may use, and the constraints.  
 **What this document is not:** The technical design. CSI writes that, and it is checked against this spec.
@@ -98,16 +98,26 @@ eMPF administers the schemes. BOCPT’s figures may lag. The chatbot reports the
 
 ### 4.1 Chatbot
 
-Section 1, above, is the only place that states what a reply may contain. CH1 to CH6 are behaviour rules on top of that table. They say how the chatbot behaves. They do not repeat the table, and they are not user stories.
+Section 1, above, is the only place that states what a reply may contain. CH1 to CH7 are behaviour rules on top of that table. They say how the chatbot behaves. They do not repeat the table, and they are not user stories.
 
 | ID | Behaviour rule |
 | --- | --- |
-| CH1 | A library document carries the level tag from section 1. Level 2 is the member session. It is not a document tag. |
-| CH2 | The input guardrail does two things. It detects personal data in what a person types, including an identity-card number, treats that text as sensitive, and masks it when staff view the conversation. It also refuses a topic that sits outside the rows in section 1, and it does not answer that topic from general knowledge. |
-| CH3 | Account data is returned only inside the existing member session, and stops when that session ends. The chat does not collect identity. |
-| CH4 | A chart is rendered from the settled figures retrieved for that request, in a fixed layout. |
-| CH5 | Where the allowed source for that row does not contain the answer, the chatbot says it does not know. |
-| CH6 | Names in a reply follow the glossary. |
+| CH1 | A library document carries a level and the other labels in the label table below. Level 2 is the member session. It is not a document label. Source name and issue date are fields on the document. The reply uses them when section 1 says to name the source or the date. They are not search labels. |
+| CH2 | The input guardrail does two things. It detects personal data in what a person types, including an identity-card number, treats that text as sensitive, and masks it when staff view the conversation. It also refuses a topic that sits outside the rows in section 1, and it does not answer that topic from general knowledge. The refusal is worded under CH6. |
+| CH3 | Before a reply is shown, an output guardrail checks the draft. It blocks a draft that breaks the advice row in section 1. It also blocks a draft that answers from general knowledge when the allowed source did not support it. The person sees the refusal under CH6, not the blocked draft. |
+| CH4 | Account data is returned only inside the existing member session, and stops when that session ends. The chat does not collect identity. |
+| CH5 | A chart is generated for that question from the settled figures just retrieved. The question decides the chart type. The numbers are only those figures. Colours, type, and labels follow the visual style set for this service. The chatbot does not invent a figure to draw. |
+| CH6 | Where the allowed source has no answer, the chatbot does not guess and does not use general knowledge. It says it cannot answer from the approved material. If a related approved passage exists, it gives that passage and says it is not the full answer. A topic outside section 1 is refused, and the reply names, in plain language, the in-service rows in section 1. A request for advice is refused. If the person named a fund or a rule, the reply may quote that published source only. A switch, a withdrawal, a transfer, or a contribution follows the eMPF row in section 1. It is not treated as unknown. |
+| CH7 | A reply uses the official spelling of scheme names, fund names, and other special names on the glossary Pension Services maintains. It does not shorten a name or invent one. |
+
+**Document labels**
+
+| Label | Rule |
+| --- | --- |
+| Level | Required. 1 or 3. |
+| Topic | Required. Pension Services sets the list. Examples are scheme rules, fees, company information, timely update, wellness, and house view. |
+| Scheme | Which scheme the document applies to, or both. |
+| Language | English or Traditional Chinese. |
 
 ### 4.2 Internal portal
 
@@ -124,14 +134,14 @@ Section 1, above, is the only place that states what a reply may contain. CH1 to
 | --- | --- |
 | PO1 | The library holds documents and free text. It does not hold a question paired with an answer. |
 | PO2 | A batch upload reports each file and continues when one file fails. |
-| PO3 | Pension Services defines the labels. A document can carry more than one, including Level 1 or Level 3. |
+| PO3 | A document carries the labels in CH1. Pension Services sets the values, including the topic list. A document can carry more than one label. |
 | PO4 | There is no editing in the portal and no approval step. A change is a download and a new upload. |
 | PO5 | A complete content overlap is detected by hash and is not stored twice. Where documents overlap, the newer document is used. |
 | PO6 | Disable keeps the file and removes it from retrieval immediately. Restore returns it. |
 | PO7 | Delete is permanent, confirmed once, and confirmed again when the document is live. |
-| PO8 | Search covers the content and can filter by label and status. Status shows live, disabled, and scheduled. |
+| PO8 | Search covers the content and can filter by the labels in CH1 and by status. Status shows live, disabled, and scheduled. |
 | PO9 | A document can be stored now and withheld until a date. That date can be moved or cancelled. |
-| PO10 | A glossary of special names is maintained. CH6 uses it. Retrieval uses a multimodal embedding. Separate language copies are not required. |
+| PO10 | A glossary of official scheme names, fund names, and other special names is maintained. CH7 uses it. Retrieval uses a multimodal embedding. Separate language copies are not required. |
 | PO11 | The log records who uploaded, downloaded, disabled, restored, or deleted a document, and when. The log cannot be changed. IT can export a date range, including failed attempts. |
 | PO12 | IT grants and revokes Pension Services admin by name. The change applies immediately, including an open session. |
 | PO13 | A playground chat is stored in the playground, so the tester can open it again and compare runs. It shows the document and passage used, or that nothing matched. It is not a member conversation and it is not included in member reports. |
@@ -222,7 +232,7 @@ CSI does not close an open point by choosing a default. An assumption used for d
 | ID | Risk | What this spec already requires |
 | --- | --- | --- |
 | R1 | The balance on BOCPT’s side lags eMPF, and the member treats the chat as wrong. | Report the figure as given, with the as-at time when the source has one. |
-| R2 | A wrong answer on the official site is a trust and fraud issue. | Section 1 names the source. CH5. |
+| R2 | A wrong answer on the official site is a trust and fraud issue. | Section 1 names the source. CH6. |
 | R3 | The library is not maintained, so the chatbot keeps an old rule. | PO6. Content ownership stays with Pension Services. |
 | R4 | Level 3 is stretched into a product recommendation. | The advice row in section 1. The trap in section 8 keeps failing. |
 | R5 | Sandbox compute sits outside the data centre, and member data follows it. | Account data stays until BOCPT agrees the path (O7). |
@@ -252,7 +262,7 @@ CSI does not close an open point by choosing a default. An assumption used for d
 | --- | --- |
 | Scope, users, and connections | Inspection against sections 1 to 3. |
 | Chatbot behaviour | A shared set of about 30 to 50 questions, half ordinary and half traps, including “Which fund should I pick?”. That question remains a refusal. The set is rerun under Q17. |
-| Session and chart | Demonstration of CH3 and CH4. |
+| Session and chart | Demonstration of CH4 and CH5. |
 | Portal roles | A call with the wrong role against CN4, for the matrix in section 4.2. |
 | Library handling | Inspection of PO2, PO5, PO6, and PO11. |
 | Constraints | Inspection that records stay on premise and that prompts are not sent to a cloud model service. |
@@ -265,7 +275,7 @@ CSI does not close an open point by choosing a default. An assumption used for d
 | Term | Meaning |
 | --- | --- |
 | Library | The documents Pension Services loads. The source for Level 1 and Level 3 in section 1. |
-| Glossary | The list of special names the answer must use. |
+| Glossary | The list of official scheme names, fund names, and other special names a reply must use. |
 | Session | The existing member login on the website or app. |
 | eMPF | Where a member submits a switch, withdrawal, transfer, or contribution. The chatbot has no system connection to it. Section 1 states the reply. |
 
