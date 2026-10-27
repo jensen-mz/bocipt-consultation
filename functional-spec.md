@@ -167,6 +167,8 @@ Choosing the documents is Pension Services’ job. The vendor builds the mechani
 
 ## 5. Constraints
 
+CN1 to CN4 are limits on the build. They bind the chatbot and the portal.
+
 | ID | Constraint |
 | --- | --- |
 | CN1 | Conversation records, the library, and logs are held on premise. |
@@ -180,7 +182,7 @@ Choosing the documents is Pension Services’ job. The vendor builds the mechani
 
 ### 6.1 Performance
 
-Targets are not set. CSI does not fill them in and present them as agreed. The measure is the time until the person has the complete answer, on the web and in the app, at the peak in Q1.
+Q1 to Q5 are the cases to measure: the time until the person has the complete answer, on the web and in the app, at the peak in Q1. The targets are not set. CSI does not fill them in and present them as agreed.
 
 | ID | Case | Target |
 | --- | --- | --- |
@@ -192,6 +194,8 @@ Targets are not set. CSI does not fill them in and present them as agreed. The m
 
 ### 6.2 Volume
 
+Q6 to Q8 are the figures used to size the service.
+
 | ID | Figure | Value | How to use it |
 | --- | --- | --- | --- |
 | Q6 | MPF member accounts, both schemes | About 900,000 | The size of the population. Confirm the figure. |
@@ -200,7 +204,9 @@ Targets are not set. CSI does not fill them in and present them as agreed. The m
 
 ### 6.3 Security
 
-| ID | Requirement |
+Q9 to Q14 are the security rules for the chatbot and the portal.
+
+| ID | Security rule |
 | --- | --- |
 | Q9 | Data in transit is encrypted. Account data and chat records are encrypted at rest. |
 | Q10 | The member session is checked on the server for every account request. One member cannot retrieve another member’s account by changing an identifier. |
@@ -211,7 +217,9 @@ Targets are not set. CSI does not fill them in and present them as agreed. The m
 
 ### 6.4 Compliance
 
-| ID | Requirement |
+Q15 to Q17 are the compliance rules that follow from section 1.
+
+| ID | Compliance rule |
 | --- | --- |
 | Q15 | The advice row in section 1 is the rule against a product recommendation, a suitability assessment, and a forecast. |
 | Q16 | Because the chatbot does not carry out a suitability assessment, it does not create the suitability file that applies when a person does give advice. |
@@ -224,6 +232,8 @@ Targets are not set. CSI does not fill them in and present them as agreed. The m
 CSI does not close an open point by choosing a default. An assumption used for design is written into the design and confirmed by BOCPT.
 
 ### 7.1 Assumptions
+
+A1 to A9 are what the design may treat as true. BOCPT confirms each one.
 
 | ID | Assumption |
 | --- | --- |
@@ -239,6 +249,8 @@ CSI does not close an open point by choosing a default. An assumption used for d
 
 ### 7.2 Risks
 
+R1 to R7 are the risks. The last column is the rule this spec already uses for that risk.
+
 | ID | Risk | What this spec already requires |
 | --- | --- | --- |
 | R1 | The balance on BOCPT’s side lags eMPF, and the member treats the chat as wrong. | Report the figure as given, with the as-at time when the source has one. |
@@ -250,6 +262,8 @@ CSI does not close an open point by choosing a default. An assumption used for d
 | R7 | Chat records hold account data and are readable too widely. | CH2 and Q11. Retention is still open (O4). |
 
 ### 7.3 Open points
+
+O1 to O10 are still open. The last column is who confirms each one.
 
 | ID | Point | Who confirms |
 | --- | --- | --- |
@@ -268,6 +282,8 @@ CSI does not close an open point by choosing a default. An assumption used for d
 
 ## 8. Acceptance
 
+Each row is one part of the build and the check BOCPT uses to accept it.
+
 | Area | How it is accepted |
 | --- | --- |
 | Scope, users, and connections | Inspection against sections 1 to 3. |
@@ -281,6 +297,8 @@ CSI does not close an open point by choosing a default. An assumption used for d
 ---
 
 ## 9. Terms and attached stories
+
+These words mean only what this table says.
 
 | Term | Meaning |
 | --- | --- |
