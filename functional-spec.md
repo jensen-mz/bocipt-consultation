@@ -123,6 +123,10 @@ Section 1, above, is the only place that states what a reply may contain. CH1 to
 
 ### 4.2 Internal portal
 
+The portal is the staff application. Members do not open it. The first table says what each role may do. PO1 to PO18 are the behaviour rules for that work. They are not user stories.
+
+**What each role may do**
+
 | Capability | Pension Services admin | IT admin |
 | --- | --- | --- |
 | Library | Full | Read only |
@@ -132,7 +136,11 @@ Section 1, above, is the only place that states what a reply may contain. CH1 to
 | Provision or revoke a Pension Services admin | No | Yes |
 | System prompt, model settings, refusal rules | Locked. See CN3. | Locked. See CN3. |
 
-| ID | Requirement |
+**How the portal behaves**
+
+The role table above says who may do the work. These rows say how the portal behaves.
+
+| ID | Behaviour rule |
 | --- | --- |
 | PO1 | The library holds documents and free text. It does not hold a question paired with an answer. |
 | PO2 | A batch upload reports each file and continues when one file fails. |
